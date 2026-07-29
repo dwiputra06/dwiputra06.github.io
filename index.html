@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="id" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dwi Putra Setiawan | Portfolio</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"Fira Code"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              900: '#064e3b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .glass {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glow-effect {
+      box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.3);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-brand-500 selection:text-slate-950">
+
+  <!-- Canvas Particle Background -->
+  <canvas id="canvas-bg" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
+
+  <!-- Navigation -->
+  <header class="fixed top-0 left-0 w-full z-50 px-4 py-4">
+    <nav class="max-w-5xl mx-auto glass rounded-2xl px-6 py-3 flex justify-between items-center shadow-2xl">
+      <a href="#" class="font-extrabold text-xl tracking-tight text-white flex items-center gap-2">
+        <span class="text-brand-500">&lt;</span>DWI<span class="text-brand-500">/&gt;</span>
+      </a>
+      
+      <div class="hidden md:flex gap-8 text-sm font-semibold text-slate-300">
+        <a href="#about" class="hover:text-brand-400 transition">Tentang</a>
+        <a href="#education" class="hover:text-brand-400 transition">Pendidikan</a>
+        <a href="#skills" class="hover:text-brand-400 transition">Keahlian</a>
+        <a href="#projects" class="hover:text-brand-400 transition">Project</a>
+        <a href="#contact" class="hover:text-brand-400 transition">Kontak</a>
+      </div>
+
+      <a href="https://wa.me/6282252262909" target="_blank" class="hidden sm:inline-flex items-center gap-2 bg-brand-500 hover:bg-brand-600 text-slate-950 font-bold text-xs uppercase px-4 py-2.5 rounded-xl transition-all shadow-lg hover:shadow-brand-500/20">
+        <i class="fa-brands fa-whatsapp text-sm"></i> Chat Direct
+      </a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative z-10 min-h-screen flex items-center justify-center pt-24 pb-16 px-6">
+    <div class="max-w-4xl mx-auto text-center space-y-8">
+      
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-brand-500/30 text-brand-400 text-xs font-mono tracking-wide">
+        <span class="w-2 h-2 rounded-full bg-brand-400 animate-ping"></span>
+        AI-Augmented Developer & Student
+      </div>
+
+      <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white leading-tight">
+        Halo, Aku <br>
+        <span class="bg-gradient-to-r from-brand-400 via-emerald-300 to-teal-200 bg-clip-text text-transparent">
+          DWI PUTRA SETIAWAN
+        </span>
+      </h1>
+
+      <p class="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
+        Suka bikin-bikin project mau itu <strong class="text-slate-200 font-semibold">Web</strong> atau <strong class="text-slate-200 font-semibold">Mobile</strong>, semua digas! Powered by passion & AI Workflow.
+      </p>
+
+      <!-- Quote Box -->
+      <div class="max-w-md mx-auto p-4 rounded-2xl glass border border-slate-800 text-sm font-mono text-slate-300 italic">
+        "<span id="typing-text"></span>"
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex flex-wrap justify-center gap-4 pt-4">
+        <a href="https://wa.me/6282252262909" target="_blank" class="px-6 py-3.5 rounded-xl bg-brand-500 hover:bg-brand-600 text-slate-950 font-bold flex items-center gap-3 transition shadow-lg shadow-brand-500/20 glow-effect">
+          <i class="fa-brands fa-whatsapp text-lg"></i> Hubungi WhatsApp
+        </a>
+        <a href="https://github.com/dwiputra06" target="_blank" class="px-6 py-3.5 rounded-xl glass hover:bg-slate-800 text-white font-bold flex items-center gap-3 border border-slate-700 transition">
+          <i class="fa-brands fa-github text-lg"></i> Cek GitHub
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- About & Education Section -->
+  <section id="education" class="relative z-10 py-20 px-6 bg-slate-900/50">
+    <div class="max-w-4xl mx-auto space-y-12">
+      <div class="text-center space-y-2">
+        <h2 class="text-xs font-mono font-semibold uppercase tracking-widest text-brand-400">Background</h2>
+        <h3 class="text-3xl font-bold text-white">Pendidikan & Perjalanan</h3>
+      </div>
+
+      <div class="space-y-6">
+        <!-- Education Item 1 -->
+        <div class="p-6 rounded-2xl glass border border-slate-800 flex flex-col sm:flex-row justify-between gap-4 items-start sm:items-center hover:border-brand-500/40 transition">
+          <div class="space-y-1">
+            <span class="text-xs font-mono text-brand-400 font-semibold">S1 / Perguruan Tinggi</span>
+            <h4 class="text-xl font-bold text-white">Universitas Muhammadiyah Kalimantan Timur</h4>
+            <p class="text-slate-400 text-sm">Teknik Informatika</p>
+          </div>
+          <span class="px-3 py-1 rounded-full bg-brand-500/10 text-brand-400 border border-brand-500/20 text-xs font-mono">
+            Aktif / Mahasiswa
+          </span>
+        </div>
+
+        <!-- Education Item 2 -->
+        <div class="p-6 rounded-2xl glass border border-slate-800 flex flex-col sm:flex-row justify-between gap-4 items-start sm:items-center hover:border-brand-500/40 transition">
+          <div class="space-y-1">
+            <span class="text-xs font-mono text-brand-400 font-semibold">SMK / Sekolah Menengah Kejuruan</span>
+            <h4 class="text-xl font-bold text-white">SMK Negeri 7 Samarinda</h4>
+            <p class="text-slate-400 text-sm">PPLG (Pengembangan Perangkat Lunak dan Gim)</p>
+          </div>
+          <span class="px-3 py-1 rounded-full bg-slate-800 text-slate-400 border border-slate-700 text-xs font-mono">
+            Alumni
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills & AI Power Section -->
+  <section id="skills" class="relative z-10 py-20 px-6">
+    <div class="max-w-4xl mx-auto space-y-12">
+      <div class="text-center space-y-2">
+        <h2 class="text-xs font-mono font-semibold uppercase tracking-widest text-brand-400">Capabilities</h2>
+        <h3 class="text-3xl font-bold text-white">Tech Stack & AI Workflows</h3>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+        <!-- Skill Badges -->
+        <div class="p-4 rounded-xl glass border border-slate-800 text-center space-y-2 hover:border-brand-500/50 transition">
+          <i class="fa-brands fa-html5 text-3xl text-orange-500"></i>
+          <p class="text-sm font-semibold text-slate-200">HTML5 / CSS3</p>
+        </div>
+        <div class="p-4 rounded-xl glass border border-slate-800 text-center space-y-2 hover:border-brand-500/50 transition">
+          <i class="fa-brands fa-js text-3xl text-yellow-400"></i>
+          <p class="text-sm font-semibold text-slate-200">JavaScript</p>
+        </div>
+        <div class="p-4 rounded-xl glass border border-slate-800 text-center space-y-2 hover:border-brand-500/50 transition">
+          <i class="fa-brands fa-react text-3xl text-sky-400"></i>
+          <p class="text-sm font-semibold text-slate-200">React & Mobile</p>
+        </div>
+        <div class="p-4 rounded-xl glass border border-slate-800 text-center space-y-2 hover:border-brand-500/50 transition">
+          <i class="fa-brands fa-github text-3xl text-white"></i>
+          <p class="text-sm font-semibold text-slate-200">Git & GitHub</p>
+        </div>
+        <div class="p-4 rounded-xl glass border border-slate-800 text-center space-y-2 hover:border-brand-500/50 transition">
+          <i class="fa-solid fa-code text-3xl text-teal-400"></i>
+          <p class="text-sm font-semibold text-slate-200">Web Development</p>
+        </div>
+        <div class="p-4 rounded-xl glass border border-slate-800 text-center space-y-2 hover:border-brand-500/50 transition">
+          <i class="fa-solid fa-mobile-screen-button text-3xl text-indigo-400"></i>
+          <p class="text-sm font-semibold text-slate-200">Mobile Apps</p>
+        </div>
+        <div class="p-4 rounded-xl glass border border-slate-800 text-center space-y-2 hover:border-brand-500/50 transition">
+          <i class="fa-solid fa-brain text-3xl text-brand-400"></i>
+          <p class="text-sm font-semibold text-slate-200">Prompt Eng.</p>
+        </div>
+        <div class="p-4 rounded-xl glass border border-slate-800 text-center space-y-2 hover:border-brand-500/50 transition">
+          <i class="fa-solid fa-robot text-3xl text-purple-400"></i>
+          <p class="text-sm font-semibold text-slate-200">AI-Assisted Dev</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="relative z-10 py-20 px-6 bg-slate-900/50">
+    <div class="max-w-4xl mx-auto space-y-12">
+      <div class="text-center space-y-2">
+        <h2 class="text-xs font-mono font-semibold uppercase tracking-widest text-brand-400">Showcase</h2>
+        <h3 class="text-3xl font-bold text-white">Project & Repository</h3>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- Project Card 1 -->
+        <div class="p-6 rounded-2xl glass border border-slate-800 space-y-4 hover:border-brand-500/50 transition group">
+          <div class="flex justify-between items-start">
+            <span class="text-xs font-mono text-brand-400">Web Project</span>
+            <a href="https://github.com/dwiputra06" target="_blank" class="text-slate-400 hover:text-white transition">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+          </div>
+          <h4 class="text-xl font-bold text-white group-hover:text-brand-400 transition">Web Application & Tools</h4>
+          <p class="text-slate-400 text-sm">Kumpulan project web interaktif berbasis modern UI & AI tools integration.</p>
+          <div class="flex gap-2 text-xs font-mono text-slate-300">
+            <span class="px-2 py-1 rounded bg-slate-800">HTML/JS</span>
+            <span class="px-2 py-1 rounded bg-slate-800">Tailwind</span>
+            <span class="px-2 py-1 rounded bg-slate-800">AI</span>
+          </div>
+        </div>
+
+        <!-- Project Card 2 -->
+        <div class="p-6 rounded-2xl glass border border-slate-800 space-y-4 hover:border-brand-500/50 transition group">
+          <div class="flex justify-between items-start">
+            <span class="text-xs font-mono text-brand-400">Mobile Project</span>
+            <a href="https://github.com/dwiputra06" target="_blank" class="text-slate-400 hover:text-white transition">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+          </div>
+          <h4 class="text-xl font-bold text-white group-hover:text-brand-400 transition">Mobile App Experiment</h4>
+          <p class="text-slate-400 text-sm">Pengembangan aplikasi mobile responsif untuk kebutuhan daily utilities.</p>
+          <div class="flex gap-2 text-xs font-mono text-slate-300">
+            <span class="px-2 py-1 rounded bg-slate-800">Mobile</span>
+            <span class="px-2 py-1 rounded bg-slate-800">UI/UX</span>
+            <span class="px-2 py-1 rounded bg-slate-800">API</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center pt-4">
+        <a href="https://github.com/dwiputra06" target="_blank" class="inline-flex items-center gap-2 text-brand-400 font-mono text-sm hover:underline">
+          Lihat semua repository di GitHub <i class="fa-solid fa-chevron-right text-xs"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Direct Contact Cards Section -->
+  <section id="contact" class="relative z-10 py-20 px-6">
+    <div class="max-w-4xl mx-auto space-y-12">
+      <div class="text-center space-y-2">
+        <h2 class="text-xs font-mono font-semibold uppercase tracking-widest text-brand-400">Get In Touch</h2>
+        <h3 class="text-3xl font-bold text-white">Kontak Direct & Info</h3>
+      </div>
+
+      <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <!-- WhatsApp -->
+        <a href="https://wa.me/6282252262909" target="_blank" class="p-6 rounded-2xl glass border border-slate-800 space-y-3 hover:border-emerald-500/50 hover:bg-slate-900 transition group text-left">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xl">
+            <i class="fa-brands fa-whatsapp"></i>
+          </div>
+          <h4 class="font-bold text-white text-lg">WhatsApp</h4>
+          <p class="text-slate-400 text-xs font-mono">082252262909</p>
+          <span class="inline-block text-xs text-brand-400 font-semibold group-hover:translate-x-1 transition-transform">
+            Chat Langsung &rarr;
+          </span>
+        </a>
+
+        <!-- Email -->
+        <div class="p-6 rounded-2xl glass border border-slate-800 space-y-3 hover:border-sky-500/50 transition text-left">
+          <div class="w-10 h-10 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center text-xl">
+            <i class="fa-regular fa-envelope"></i>
+          </div>
+          <h4 class="font-bold text-white text-lg">Email</h4>
+          <p class="text-slate-400 text-xs font-mono truncate">dwiputrasetiawan0406@gmail.com</p>
+          <button onclick="copyEmail()" class="text-xs text-sky-400 font-semibold hover:underline flex items-center gap-1">
+            <i class="fa-regular fa-copy"></i> Salin Email
+          </button>
+        </div>
+
+        <!-- Location -->
+        <div class="p-6 rounded-2xl glass border border-slate-800 space-y-3 hover:border-purple-500/50 transition text-left sm:col-span-2 md:col-span-1">
+          <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center text-xl">
+            <i class="fa-solid fa-location-dot"></i>
+          </div>
+          <h4 class="font-bold text-white text-lg">Lokasi</h4>
+          <p class="text-slate-400 text-xs font-mono">Samarinda, Kalimantan Timur</p>
+          <span class="inline-flex items-center gap-1.5 text-xs text-purple-400 font-semibold">
+            <span class="w-2 h-2 rounded-full bg-purple-400"></span> Available Remote
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-brand-500 text-slate-950 px-4 py-3 rounded-xl font-bold text-sm shadow-2xl flex items-center gap-2 pointer-events-none">
+    <i class="fa-solid fa-circle-check"></i> Email berhasil disalin!
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative z-10 border-t border-slate-800/80 py-8 text-center text-slate-500 text-xs font-mono">
+    <p>© 2026 Dwi Putra Setiawan. All rights reserved.</p>
+  </footer>
+
+  <!-- Canvas Particles & Typing Effect Script -->
+  <script>
+    // Typing Effect
+    const tagline = "Yang penting besok hidup dah";
+    let i = 0;
+    function typeWriter() {
+      if (i < tagline.length) {
+        document.getElementById("typing-text").innerHTML += tagline.charAt(i);
+        i++;
+        setTimeout(typeWriter, 80);
+      }
+    }
+    window.onload = typeWriter;
+
+    // Copy Email Toast
+    function copyEmail() {
+      navigator.clipboard.writeText("dwiputrasetiawan0406@gmail.com");
+      const toast = document.getElementById("toast");
+      toast.classList.remove("translate-y-20", "opacity-0");
+      setTimeout(() => {
+        toast.classList.add("translate-y-20", "opacity-0");
+      }, 2500);
+    }
+
+    // Canvas Particle Animation
+    const canvas = document.getElementById('canvas-bg');
+    const ctx = canvas.getContext('2d');
+    let width, height, particles = [];
+
+    function initCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      particles = [];
+      for (let i = 0; i < 40; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5,
+          radius: Math.random() * 2 + 1
+        });
+      }
+    }
+
+    function animateCanvas() {
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = '#10b981';
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      requestAnimationFrame(animateCanvas);
+    }
+
+    window.addEventListener('resize', initCanvas);
+    initCanvas();
+    animateCanvas();
+  </script>
+</body>
+</html>
