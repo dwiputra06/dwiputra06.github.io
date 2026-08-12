@@ -1,2515 +1,2555 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#080808">
-<meta name="description" content="Dwi Putra Setiawan — Full Stack Web Developer & Informatics Student.">
-<title>DWI — Full Stack Developer</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Manrope:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config={
-theme:{
-extend:{
-fontFamily:{
-sans:["Manrope","sans-serif"],
-display:["Space Grotesk","sans-serif"],
-mono:["DM Mono","monospace"]
-}
-}
-}
-}
-</script>
-<style>
-:root{
---bg:#080808;
---fg:#f3f3f0;
---muted:#858585;
---line:rgba(255,255,255,.11);
---acid:#c8ff00;
---blue:#5ee7ff;
---orange:#ff7048;
-}
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
-html{
-background:var(--bg);
-scroll-behavior:auto;
-}
-body{
-background:var(--bg);
-color:var(--fg);
-font-family:"Manrope",sans-serif;
-overflow-x:hidden;
-cursor:none;
-}
-a,button,input{
-font:inherit;
-}
-button{
-cursor:none;
-}
-::selection{
-background:var(--acid);
-color:#050505;
-}
-::-webkit-scrollbar{
-width:5px;
-}
-::-webkit-scrollbar-track{
-background:#080808;
-}
-::-webkit-scrollbar-thumb{
-background:#454545;
-}
-::-webkit-scrollbar-thumb:hover{
-background:var(--acid);
-}
-body:before{
-content:"";
-position:fixed;
-inset:0;
-pointer-events:none;
-z-index:9990;
-opacity:.035;
-background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
-}
-.noise{
-position:fixed;
-inset:0;
-pointer-events:none;
-z-index:9991;
-opacity:.04;
-background-image:radial-gradient(rgba(255,255,255,.7) .5px,transparent .5px);
-background-size:5px 5px;
-}
-.cursor{
-position:fixed;
-width:16px;
-height:16px;
-border:1px solid rgba(255,255,255,.9);
-border-radius:50%;
-pointer-events:none;
-z-index:10000;
-transform:translate(-50%,-50%);
-mix-blend-mode:difference;
-transition:width .25s ease,height .25s ease,background .25s ease,border .25s ease;
-}
-.cursor-dot{
-position:fixed;
-width:4px;
-height:4px;
-background:white;
-border-radius:50%;
-pointer-events:none;
-z-index:10001;
-transform:translate(-50%,-50%);
-mix-blend-mode:difference;
-}
-.cursor.active{
-width:72px;
-height:72px;
-background:var(--acid);
-border-color:var(--acid);
-}
-.cursor.text-mode{
-width:100px;
-height:100px;
-background:var(--acid);
-border-color:var(--acid);
-}
-.cursor-label{
-position:fixed;
-pointer-events:none;
-z-index:10002;
-font:500 9px "DM Mono",monospace;
-letter-spacing:.12em;
-text-transform:uppercase;
-color:#050505;
-opacity:0;
-transform:translate(-50%,-50%);
-}
-.page-loader{
-position:fixed;
-inset:0;
-background:#080808;
-z-index:20000;
-display:flex;
-align-items:flex-end;
-justify-content:space-between;
-padding:35px;
-}
-.loader-number{
-font:500 clamp(5rem,15vw,14rem) "Space Grotesk",sans-serif;
-line-height:.8;
-letter-spacing:-.08em;
-}
-.loader-meta{
-font:400 10px "DM Mono",monospace;
-color:#777;
-letter-spacing:.1em;
-text-transform:uppercase;
-}
-.loader-line{
-position:absolute;
-bottom:25px;
-left:35px;
-right:35px;
-height:1px;
-background:#222;
-overflow:hidden;
-}
-.loader-line span{
-display:block;
-width:0;
-height:100%;
-background:var(--acid);
-}
-.nav{
-position:fixed;
-top:0;
-left:0;
-right:0;
-height:86px;
-z-index:500;
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 4vw;
-mix-blend-mode:difference;
-color:white;
-}
-.logo{
-font:700 20px "Space Grotesk",sans-serif;
-letter-spacing:-.06em;
-text-decoration:none;
-color:white;
-}
-.logo span{
-color:var(--acid);
-}
-.nav-links{
-display:flex;
-gap:34px;
-align-items:center;
-}
-.nav-links a{
-font:400 10px "DM Mono",monospace;
-letter-spacing:.08em;
-text-transform:uppercase;
-color:white;
-text-decoration:none;
-position:relative;
-}
-.nav-links a:after{
-content:"";
-position:absolute;
-height:1px;
-background:var(--acid);
-left:0;
-right:100%;
-bottom:-6px;
-transition:right .3s ease;
-}
-.nav-links a:hover:after{
-right:0;
-}
-.nav-status{
-display:flex;
-align-items:center;
-gap:8px;
-font:400 9px "DM Mono",monospace;
-text-transform:uppercase;
-letter-spacing:.08em;
-}
-.status-dot{
-width:6px;
-height:6px;
-border-radius:50%;
-background:var(--acid);
-box-shadow:0 0 14px var(--acid);
-animation:pulse 1.8s infinite;
-}
-@keyframes pulse{
-0%,100%{
-opacity:1;
-transform:scale(1);
-}
-50%{
-opacity:.4;
-transform:scale(.65);
-}
-}
-.menu-btn{
-display:none;
-background:none;
-border:0;
-color:white;
-font:400 10px "DM Mono",monospace;
-}
-.hero{
-min-height:100svh;
-position:relative;
-display:flex;
-align-items:center;
-padding:130px 5vw 70px;
-overflow:hidden;
-}
-.hero-canvas{
-position:absolute;
-inset:0;
-z-index:0;
-}
-.hero-grid{
-position:absolute;
-inset:0;
-opacity:.11;
-background-image:linear-gradient(rgba(255,255,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.12) 1px,transparent 1px);
-background-size:90px 90px;
-mask-image:linear-gradient(to bottom,black 0%,transparent 85%);
-}
-.hero-content{
-position:relative;
-z-index:2;
-width:100%;
-}
-.hero-top{
-display:flex;
-justify-content:space-between;
-align-items:flex-start;
-margin-bottom:7vh;
-}
-.eyebrow{
-font:400 10px "DM Mono",monospace;
-color:#777;
-text-transform:uppercase;
-letter-spacing:.12em;
-}
-.hero-location{
-font:400 10px "DM Mono",monospace;
-color:#777;
-text-align:right;
-line-height:1.8;
-}
-.hero-title{
-font:700 clamp(5rem,16vw,16rem) "Space Grotesk",sans-serif;
-letter-spacing:-.095em;
-line-height:.73;
-text-transform:uppercase;
-}
-.hero-title .line{
-display:block;
-overflow:hidden;
-}
-.hero-title .word{
-display:inline-block;
-transform:translateY(110%);
-}
-.hero-title .accent{
-color:var(--acid);
-}
-.hero-title .outline{
--webkit-text-stroke:1px rgba(255,255,255,.65);
-color:transparent;
-}
-.hero-bottom{
-margin-top:9vh;
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:30px;
-align-items:end;
-}
-.hero-description{
-font-size:14px;
-line-height:1.8;
-color:#969696;
-max-width:430px;
-}
-.hero-description strong{
-color:white;
-font-weight:600;
-}
-.scroll-indicator{
-display:flex;
-align-items:center;
-gap:12px;
-font:400 9px "DM Mono",monospace;
-color:#666;
-text-transform:uppercase;
-letter-spacing:.12em;
-}
-.scroll-line{
-width:70px;
-height:1px;
-background:#444;
-position:relative;
-overflow:hidden;
-}
-.scroll-line span{
-position:absolute;
-left:-100%;
-top:0;
-width:100%;
-height:100%;
-background:var(--acid);
-animation:scrollLine 2s infinite;
-}
-@keyframes scrollLine{
-0%{
-left:-100%;
-}
-50%{
-left:0;
-}
-100%{
-left:100%;
-}
-}
-.hero-year{
-font:400 10px "DM Mono",monospace;
-color:#555;
-text-align:right;
-}
-.float-orb{
-position:absolute;
-width:28vw;
-height:28vw;
-min-width:260px;
-min-height:260px;
-border-radius:50%;
-background:radial-gradient(circle at 35% 30%,rgba(200,255,0,.17),rgba(200,255,0,.02) 42%,transparent 70%);
-filter:blur(10px);
-right:5vw;
-top:18%;
-z-index:1;
-pointer-events:none;
-}
-.marquee-wrap{
-border-top:1px solid var(--line);
-border-bottom:1px solid var(--line);
-overflow:hidden;
-white-space:nowrap;
-background:#0a0a0a;
-}
-.marquee{
-display:inline-flex;
-align-items:center;
-animation:marquee 22s linear infinite;
-}
-.marquee span{
-font:600 clamp(3rem,7vw,7rem) "Space Grotesk",sans-serif;
-letter-spacing:-.07em;
-padding-right:35px;
-color:#171717;
--webkit-text-stroke:1px #414141;
-}
-.marquee span.acid{
-color:var(--acid);
--webkit-text-stroke:0;
-}
-@keyframes marquee{
-from{
-transform:translateX(0);
-}
-to{
-transform:translateX(-50%);
-}
-}
-.section{
-position:relative;
-padding:150px 5vw;
-}
-.section-head{
-display:flex;
-justify-content:space-between;
-align-items:flex-end;
-margin-bottom:80px;
-}
-.section-number{
-font:400 10px "DM Mono",monospace;
-color:#555;
-letter-spacing:.1em;
-}
-.section-kicker{
-font:400 10px "DM Mono",monospace;
-color:var(--acid);
-text-transform:uppercase;
-letter-spacing:.12em;
-margin-bottom:14px;
-}
-.section-title{
-font:600 clamp(3rem,7vw,8rem) "Space Grotesk",sans-serif;
-line-height:.9;
-letter-spacing:-.075em;
-max-width:900px;
-}
-.section-title em{
-font-style:normal;
-color:#666;
-}
-.projects{
-border-top:1px solid var(--line);
-}
-.project{
-position:relative;
-min-height:76vh;
-display:grid;
-grid-template-columns:80px 1fr 1.3fr 180px;
-gap:30px;
-align-items:center;
-border-bottom:1px solid var(--line);
-overflow:hidden;
-}
-.project-index{
-font:400 11px "DM Mono",monospace;
-color:#555;
-align-self:start;
-padding-top:35px;
-}
-.project-info{
-position:relative;
-z-index:3;
-}
-.project-category{
-font:400 9px "DM Mono",monospace;
-color:#777;
-text-transform:uppercase;
-letter-spacing:.12em;
-margin-bottom:25px;
-}
-.project-name{
-font:600 clamp(3rem,6vw,7rem) "Space Grotesk",sans-serif;
-letter-spacing:-.08em;
-line-height:.82;
-}
-.project-name span{
-display:block;
-color:#555;
-}
-.project-copy{
-font-size:12px;
-color:#777;
-line-height:1.8;
-max-width:330px;
-margin-top:35px;
-}
-.project-visual{
-height:58vh;
-min-height:400px;
-position:relative;
-overflow:hidden;
-background:#111;
-clip-path:inset(0);
-}
-.project-visual img{
-width:100%;
-height:100%;
-object-fit:cover;
-filter:grayscale(100%);
-transform:scale(1.08);
-transition:filter .7s ease,transform 1s cubic-bezier(.22,1,.36,1);
-}
-.project:hover .project-visual img{
-filter:grayscale(0);
-transform:scale(1);
-}
-.project-overlay{
-position:absolute;
-inset:0;
-background:linear-gradient(135deg,rgba(0,0,0,.1),rgba(0,0,0,.65));
-pointer-events:none;
-}
-.project-number-large{
-position:absolute;
-right:20px;
-top:10px;
-font:700 14vw "Space Grotesk",sans-serif;
-line-height:1;
-color:rgba(255,255,255,.08);
-letter-spacing:-.1em;
-pointer-events:none;
-}
-.project-meta{
-align-self:end;
-padding-bottom:35px;
-font:400 9px "DM Mono",monospace;
-color:#777;
-line-height:2;
-text-transform:uppercase;
-letter-spacing:.08em;
-}
-.project-arrow{
-width:48px;
-height:48px;
-border:1px solid #444;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-margin-bottom:20px;
-transition:all .35s ease;
-}
-.project:hover .project-arrow{
-background:var(--acid);
-border-color:var(--acid);
-color:#050505;
-transform:rotate(-45deg);
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080808">
+    <meta name="description" content="Dwi Putra Setiawan — Full Stack Web Developer & Informatics Student.">
+    <title>DWI — Full Stack Developer</title>
 
-/* ==========================================
-HORIZONTAL SHOWCASE — FIXED
-========================================== */
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Manrope:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-.horizontal-section{
-position:relative;
-height:100vh;
-min-height:760px;
-overflow:hidden;
-background:#0b0b0b;
-}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ["Manrope", "sans-serif"],
+                        display: ["Space Grotesk", "sans-serif"],
+                        mono: ["DM Mono", "monospace"]
+                    }
+                }
+            }
+        };
+    </script>
 
-.horizontal-stage{
-position:relative;
-height:100%;
-width:100%;
-display:flex;
-align-items:center;
-overflow:hidden;
-}
+    <style>
+        :root {
+            --bg: #080808;
+            --fg: #f3f3f0;
+            --muted: #858585;
+            --line: rgba(255, 255, 255, 0.11);
+            --acid: #c8ff00;
+        }
 
-.horizontal-title{
-position:absolute;
-top:10vh;
-left:5vw;
-z-index:5;
-margin:0;
-pointer-events:none;
-}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-.horizontal-title .section-title{
-font-size:clamp(3.5rem,7vw,8rem);
-}
+        html {
+            background: var(--bg);
+            scroll-behavior: auto;
+        }
 
-.horizontal-track{
-display:flex;
-align-items:center;
-gap:24px;
-width:max-content;
-padding-left:5vw;
-padding-right:10vw;
-will-change:transform;
-}
+        body {
+            background: var(--bg);
+            color: var(--fg);
+            font-family: "Manrope", sans-serif;
+            overflow-x: hidden;
+            cursor: none;
+        }
 
-.experiment{
-width:min(42vw,680px);
-height:min(58vh,500px);
-min-height:380px;
-position:relative;
-overflow:hidden;
-background:#151515;
-flex:none;
-}
-.experiment:nth-child(2){
-margin-top:70px;
-}
-.experiment:nth-child(3){
-margin-top:-50px;
-}
-.experiment:nth-child(4){
-margin-top:50px;
-}
-.experiment img{
-width:100%;
-height:100%;
-object-fit:cover;
-filter:grayscale(100%);
-transition:filter .6s ease,transform .8s cubic-bezier(.22,1,.36,1);
-}
-.experiment:hover img{
-filter:grayscale(0);
-transform:scale(1.04);
-}
-.experiment:after{
-content:"";
-position:absolute;
-inset:0;
-background:linear-gradient(to top,rgba(0,0,0,.82),transparent 55%);
-pointer-events:none;
-}
-.experiment-label{
-position:absolute;
-bottom:25px;
-left:28px;
-z-index:2;
-font:400 10px "DM Mono",monospace;
-text-transform:uppercase;
-letter-spacing:.1em;
-}
-.experiment-label strong{
-display:block;
-font:600 30px "Space Grotesk",sans-serif;
-letter-spacing:-.05em;
-margin-top:5px;
-}
+        a,
+        button,
+        input {
+            font: inherit;
+        }
 
-/* END HORIZONTAL */
+        button {
+            cursor: none;
+        }
 
-.about{
-display:grid;
-grid-template-columns:1fr 1.4fr;
-gap:10vw;
-}
-.about-big{
-font:500 clamp(3rem,6vw,7rem) "Space Grotesk",sans-serif;
-letter-spacing:-.075em;
-line-height:.92;
-}
-.about-big .dim{
-color:#444;
-}
-.about-copy{
-padding-top:15px;
-}
-.about-copy p{
-font-size:15px;
-line-height:2;
-color:#888;
-max-width:560px;
-margin-bottom:35px;
-}
-.about-copy p strong{
-color:#eee;
-font-weight:500;
-}
-.about-facts{
-border-top:1px solid var(--line);
-}
-.fact{
-display:flex;
-justify-content:space-between;
-padding:17px 0;
-border-bottom:1px solid var(--line);
-font:400 10px "DM Mono",monospace;
-text-transform:uppercase;
-letter-spacing:.07em;
-}
-.fact span:last-child{
-color:#777;
-}
-.stack-section{
-background:#f1f1ec;
-color:#0a0a0a;
-padding:150px 5vw;
-}
-.stack-section .section-kicker{
-color:#555;
-}
-.stack-section .section-number{
-color:#aaa;
-}
-.stack-list{
-border-top:1px solid rgba(0,0,0,.2);
-margin-top:70px;
-}
-.stack-item{
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:22px 0;
-border-bottom:1px solid rgba(0,0,0,.2);
-overflow:hidden;
-position:relative;
-}
-.stack-name{
-font:500 clamp(2.5rem,6vw,7rem) "Space Grotesk",sans-serif;
-letter-spacing:-.07em;
-transition:transform .5s cubic-bezier(.22,1,.36,1);
-}
-.stack-item:hover .stack-name{
-transform:translateX(20px);
-}
-.stack-type{
-font:400 9px "DM Mono",monospace;
-text-transform:uppercase;
-color:#777;
-}
-.stack-num{
-font:400 9px "DM Mono",monospace;
-color:#999;
-width:60px;
-}
-.timeline{
-position:relative;
-margin-top:80px;
-}
-.timeline-line{
-position:absolute;
-left:50%;
-top:0;
-bottom:0;
-width:1px;
-background:var(--line);
-transform:translateX(-50%);
-}
-.timeline-progress{
-position:absolute;
-left:50%;
-top:0;
-width:2px;
-height:0;
-background:var(--acid);
-transform:translateX(-50%);
-}
-.timeline-item{
-min-height:280px;
-display:grid;
-grid-template-columns:1fr 1fr;
-position:relative;
-}
-.timeline-item:nth-child(odd) .timeline-content{
-grid-column:1;
-padding-right:12%;
-text-align:right;
-}
-.timeline-item:nth-child(even) .timeline-content{
-grid-column:2;
-padding-left:12%;
-}
-.timeline-dot{
-position:absolute;
-left:50%;
-top:20px;
-width:11px;
-height:11px;
-background:#111;
-border:1px solid #555;
-border-radius:50%;
-transform:translateX(-50%);
-z-index:2;
-}
-.timeline-item.active .timeline-dot{
-background:var(--acid);
-border-color:var(--acid);
-box-shadow:0 0 25px rgba(200,255,0,.4);
-}
-.timeline-year{
-font:400 10px "DM Mono",monospace;
-color:var(--acid);
-margin-bottom:15px;
-}
-.timeline-title{
-font:500 30px "Space Grotesk",sans-serif;
-letter-spacing:-.05em;
-margin-bottom:15px;
-}
-.timeline-text{
-font-size:12px;
-line-height:1.8;
-color:#777;
-}
-.contact{
-min-height:85vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-}
-.contact-kicker{
-font:400 10px "DM Mono",monospace;
-color:#777;
-text-transform:uppercase;
-letter-spacing:.1em;
-margin-bottom:30px;
-}
-.contact-title{
-font:600 clamp(4rem,11vw,13rem) "Space Grotesk",sans-serif;
-line-height:.78;
-letter-spacing:-.095em;
-}
-.contact-title .line{
-display:block;
-}
-.contact-title .acid{
-color:var(--acid);
-}
-.contact-bottom{
-display:flex;
-justify-content:space-between;
-align-items:end;
-margin-top:80px;
-}
-.contact-email{
-font:400 12px "DM Mono",monospace;
-color:#999;
-text-decoration:none;
-border-bottom:1px solid #444;
-padding-bottom:7px;
-}
-.contact-button{
-width:125px;
-height:125px;
-border-radius:50%;
-background:var(--acid);
-color:#050505;
-display:flex;
-align-items:center;
-justify-content:center;
-font:500 10px "DM Mono",monospace;
-text-transform:uppercase;
-text-decoration:none;
-text-align:center;
-line-height:1.4;
-transition:transform .5s cubic-bezier(.22,1,.36,1);
-}
-.contact-button:hover{
-transform:scale(1.12) rotate(-10deg);
-}
-.footer{
-border-top:1px solid var(--line);
-padding:25px 5vw;
-display:flex;
-justify-content:space-between;
-font:400 9px "DM Mono",monospace;
-color:#555;
-text-transform:uppercase;
-letter-spacing:.08em;
-}
-.footer a{
-color:#777;
-text-decoration:none;
-}
-.terminal{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.75);
-backdrop-filter:blur(15px);
-z-index:15000;
-display:none;
-align-items:center;
-justify-content:center;
-padding:20px;
-}
-.terminal.open{
-display:flex;
-}
-.terminal-window{
-width:min(850px,100%);
-background:#0b0b0b;
-border:1px solid #333;
-box-shadow:0 30px 100px rgba(0,0,0,.7);
-}
-.terminal-head{
-height:42px;
-padding:0 15px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-border-bottom:1px solid #222;
-font:400 9px "DM Mono",monospace;
-color:#666;
-}
-.terminal-head button{
-background:none;
-border:0;
-color:#777;
-}
-.terminal-dots{
-display:flex;
-gap:6px;
-}
-.terminal-dots span{
-width:8px;
-height:8px;
-border-radius:50%;
-background:#333;
-}
-.terminal-body{
-height:430px;
-padding:20px;
-overflow-y:auto;
-font:400 11px/1.8 "DM Mono",monospace;
-color:#aaa;
-}
-.terminal-input{
-display:flex;
-border-top:1px solid #222;
-padding:12px 20px;
-gap:10px;
-}
-.terminal-input span{
-color:var(--acid);
-}
-.terminal-input input{
-width:100%;
-background:none;
-border:0;
-outline:0;
-color:white;
-font:400 11px "DM Mono",monospace;
-}
-.mobile-menu{
-position:fixed;
-inset:0;
-background:#080808;
-z-index:450;
-display:none;
-flex-direction:column;
-justify-content:center;
-padding:10vw;
-}
-.mobile-menu.open{
-display:flex;
-}
-.mobile-menu a{
-font:600 clamp(3rem,12vw,6rem) "Space Grotesk",sans-serif;
-letter-spacing:-.08em;
-color:white;
-text-decoration:none;
-line-height:1.05;
-}
-.mobile-menu small{
-font:400 9px "DM Mono",monospace;
-color:#555;
-margin-bottom:30px;
-}
-.reveal{
-opacity:0;
-transform:translateY(60px);
-}
-@media(max-width:900px){
-body{
-cursor:auto;
-}
-.cursor,.cursor-dot,.cursor-label{
-display:none;
-}
-.nav{
-height:72px;
-padding:0 5vw;
-}
-.nav-links,.nav-status{
-display:none;
-}
-.menu-btn{
-display:block;
-}
-.hero{
-padding:110px 5vw 50px;
-}
-.hero-top{
-margin-bottom:8vh;
-}
-.hero-location{
-display:none;
-}
-.hero-title{
-font-size:clamp(4.3rem,19vw,10rem);
-line-height:.76;
-}
-.hero-bottom{
-grid-template-columns:1fr;
-gap:30px;
-margin-top:8vh;
-}
-.hero-year{
-text-align:left;
-}
-.float-orb{
-width:65vw;
-height:65vw;
-right:-15vw;
-top:25%;
-}
-.section{
-padding:100px 5vw;
-}
-.section-head{
-display:block;
-margin-bottom:55px;
-}
-.section-number{
-margin-bottom:25px;
-}
-.project{
-min-height:auto;
-display:block;
-padding:55px 0;
-}
-.project-index{
-padding:0;
-margin-bottom:25px;
-}
-.project-info{
-margin-bottom:40px;
-}
-.project-name{
-font-size:clamp(3.5rem,15vw,7rem);
-}
-.project-visual{
-height:55vw;
-min-height:280px;
-}
-.project-meta{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:25px 0 0;
-}
-.project-arrow{
-margin:0;
-}
+        ::selection {
+            background: var(--acid);
+            color: #050505;
+        }
 
-/* MOBILE HORIZONTAL = NORMAL SCROLL */
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
 
-.horizontal-section{
-height:auto;
-min-height:0;
-padding:100px 0;
-overflow:hidden;
-}
-.horizontal-stage{
-height:auto;
-display:block;
-overflow:visible;
-}
-.horizontal-title{
-position:relative;
-top:auto;
-left:auto;
-padding:0 5vw;
-margin-bottom:55px;
-}
-.horizontal-track{
-display:flex;
-flex-direction:column;
-gap:25px;
-width:100%;
-padding:0 5vw;
-}
-.experiment{
-width:100%;
-height:55vw;
-min-height:260px;
-}
-.experiment:nth-child(2),
-.experiment:nth-child(3),
-.experiment:nth-child(4){
-margin-top:0;
-}
-.experiment-label strong{
-font-size:25px;
-}
+        ::-webkit-scrollbar-track {
+            background: #080808;
+        }
 
-.about{
-grid-template-columns:1fr;
-gap:60px;
-}
-.stack-section{
-padding:100px 5vw;
-}
-.stack-name{
-font-size:clamp(2.5rem,11vw,6rem);
-}
-.timeline-line,.timeline-progress{
-left:10px;
-}
-.timeline-item{
-display:block;
-min-height:250px;
-padding-left:40px;
-}
-.timeline-item:nth-child(odd) .timeline-content,
-.timeline-item:nth-child(even) .timeline-content{
-padding:0;
-text-align:left;
-}
-.timeline-dot{
-left:10px;
-}
-.contact{
-min-height:75vh;
-}
-.contact-title{
-font-size:clamp(4rem,17vw,9rem);
-}
-.contact-bottom{
-display:block;
-margin-top:60px;
-}
-.contact-button{
-margin-top:40px;
-width:100px;
-height:100px;
-}
-.footer{
-display:block;
-line-height:2;
-}
-}
-@media(prefers-reduced-motion:reduce){
-*{
-scroll-behavior:auto!important;
-animation:none!important;
-transition:none!important;
-}
-.reveal{
-opacity:1!important;
-transform:none!important;
-}
-}
-</style>
+        ::-webkit-scrollbar-thumb {
+            background: #454545;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--acid);
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9990;
+            opacity: 0.035;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+        }
+
+        .noise {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9991;
+            opacity: 0.04;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.7) 0.5px, transparent 0.5px);
+            background-size: 5px 5px;
+        }
+
+        .cursor,
+        .cursor-dot,
+        .cursor-label {
+            position: fixed;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+        }
+
+        .cursor {
+            width: 16px;
+            height: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            z-index: 10000;
+            mix-blend-mode: difference;
+            transition: width 0.25s ease, height 0.25s ease, background 0.25s ease, border 0.25s ease;
+        }
+
+        .cursor-dot {
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            z-index: 10001;
+            mix-blend-mode: difference;
+        }
+
+        .cursor.active {
+            width: 72px;
+            height: 72px;
+            background: var(--acid);
+            border-color: var(--acid);
+        }
+
+        .cursor.text-mode {
+            width: 100px;
+            height: 100px;
+            background: var(--acid);
+            border-color: var(--acid);
+        }
+
+        .cursor-label {
+            z-index: 10002;
+            font: 500 9px "DM Mono", monospace;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #050505;
+            opacity: 0;
+        }
+
+        .page-loader {
+            position: fixed;
+            inset: 0;
+            z-index: 20000;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding: 35px;
+            background: #080808;
+        }
+
+        .loader-number {
+            font: 500 clamp(5rem, 15vw, 14rem) "Space Grotesk", sans-serif;
+            line-height: 0.8;
+            letter-spacing: -0.08em;
+        }
+
+        .loader-meta {
+            font: 400 10px "DM Mono", monospace;
+            color: #777;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .loader-line {
+            position: absolute;
+            right: 35px;
+            bottom: 25px;
+            left: 35px;
+            height: 1px;
+            overflow: hidden;
+            background: #222;
+        }
+
+        .loader-line span {
+            display: block;
+            width: 0;
+            height: 100%;
+            background: var(--acid);
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 500;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 86px;
+            padding: 0 4vw;
+            color: white;
+            mix-blend-mode: difference;
+        }
+
+        .logo {
+            color: white;
+            font: 700 20px "Space Grotesk", sans-serif;
+            letter-spacing: -0.06em;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--acid);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 34px;
+        }
+
+        .nav-links a {
+            position: relative;
+            color: white;
+            font: 400 10px "DM Mono", monospace;
+            letter-spacing: 0.08em;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            right: 100%;
+            bottom: -6px;
+            left: 0;
+            height: 1px;
+            background: var(--acid);
+            transition: right 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            right: 0;
+        }
+
+        .nav-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font: 400 9px "DM Mono", monospace;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--acid);
+            box-shadow: 0 0 14px var(--acid);
+            animation: pulse 1.8s infinite;
+        }
+
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.4;
+                transform: scale(0.65);
+            }
+        }
+
+        .menu-btn {
+            display: none;
+            border: 0;
+            color: white;
+            background: none;
+            font: 400 10px "DM Mono", monospace;
+        }
+
+        .hero {
+            position: relative;
+            display: flex;
+            align-items: center;
+            min-height: 100svh;
+            padding: 130px 5vw 70px;
+            overflow: hidden;
+        }
+
+        .hero-canvas,
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+        }
+
+        .hero-canvas {
+            z-index: 0;
+        }
+
+        .hero-grid {
+            z-index: 1;
+            opacity: 0.11;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+            background-size: 90px 90px;
+            mask-image: linear-gradient(to bottom, black 0%, transparent 85%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+
+        .hero-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 7vh;
+        }
+
+        .eyebrow,
+        .hero-location,
+        .hero-year {
+            font: 400 10px "DM Mono", monospace;
+            letter-spacing: 0.12em;
+        }
+
+        .eyebrow,
+        .hero-location {
+            color: #777;
+            text-transform: uppercase;
+        }
+
+        .hero-location {
+            line-height: 1.8;
+            text-align: right;
+        }
+
+        .hero-title {
+            font: 700 clamp(5rem, 16vw, 16rem) "Space Grotesk", sans-serif;
+            letter-spacing: -0.095em;
+            line-height: 0.73;
+            text-transform: uppercase;
+        }
+
+        .hero-title .line {
+            display: block;
+            overflow: hidden;
+        }
+
+        .hero-title .word {
+            display: inline-block;
+            transform: translateY(110%);
+        }
+
+        .hero-title .accent {
+            color: var(--acid);
+        }
+
+        .hero-title .outline {
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.65);
+        }
+
+        .hero-bottom {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            align-items: end;
+            gap: 30px;
+            margin-top: 9vh;
+        }
+
+        .hero-description {
+            max-width: 430px;
+            color: #969696;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .hero-description strong {
+            color: white;
+            font-weight: 600;
+        }
+
+        .scroll-indicator {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #666;
+            font: 400 9px "DM Mono", monospace;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .scroll-line {
+            position: relative;
+            width: 70px;
+            height: 1px;
+            overflow: hidden;
+            background: #444;
+        }
+
+        .scroll-line span {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--acid);
+            animation: scrollLine 2s infinite;
+        }
+
+        @keyframes scrollLine {
+            0% {
+                left: -100%;
+            }
+
+            50% {
+                left: 0;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+        .hero-year {
+            color: #555;
+            text-align: right;
+        }
+
+        .float-orb {
+            position: absolute;
+            top: 18%;
+            right: 5vw;
+            z-index: 1;
+            width: 28vw;
+            height: 28vw;
+            min-width: 260px;
+            min-height: 260px;
+            border-radius: 50%;
+            background: radial-gradient(
+                circle at 35% 30%,
+                rgba(200, 255, 0, 0.17),
+                rgba(200, 255, 0, 0.02) 42%,
+                transparent 70%
+            );
+            filter: blur(10px);
+            pointer-events: none;
+        }
+
+        .marquee-wrap {
+            overflow: hidden;
+            white-space: nowrap;
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+            background: #0a0a0a;
+        }
+
+        .marquee {
+            display: inline-flex;
+            align-items: center;
+            animation: marquee 22s linear infinite;
+        }
+
+        .marquee span {
+            padding-right: 35px;
+            color: #171717;
+            font: 600 clamp(3rem, 7vw, 7rem) "Space Grotesk", sans-serif;
+            letter-spacing: -0.07em;
+            -webkit-text-stroke: 1px #414141;
+        }
+
+        .marquee span.acid {
+            color: var(--acid);
+            -webkit-text-stroke: 0;
+        }
+
+        @keyframes marquee {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        .section {
+            position: relative;
+            padding: 150px 5vw;
+        }
+
+        .section-head {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 80px;
+        }
+
+        .section-number,
+        .section-kicker {
+            font: 400 10px "DM Mono", monospace;
+            letter-spacing: 0.1em;
+        }
+
+        .section-number {
+            color: #555;
+        }
+
+        .section-kicker {
+            margin-bottom: 14px;
+            color: var(--acid);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .section-title {
+            max-width: 900px;
+            font: 600 clamp(3rem, 7vw, 8rem) "Space Grotesk", sans-serif;
+            letter-spacing: -0.075em;
+            line-height: 0.9;
+        }
+
+        .section-title em {
+            color: #666;
+            font-style: normal;
+        }
+
+        .projects {
+            border-top: 1px solid var(--line);
+        }
+
+        .project {
+            position: relative;
+            display: grid;
+            grid-template-columns: 80px 1fr 1.3fr 180px;
+            align-items: center;
+            min-height: 76vh;
+            gap: 30px;
+            overflow: hidden;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .project-index {
+            align-self: start;
+            padding-top: 35px;
+            color: #555;
+            font: 400 11px "DM Mono", monospace;
+        }
+
+        .project-info {
+            position: relative;
+            z-index: 3;
+        }
+
+        .project-category {
+            margin-bottom: 25px;
+            color: #777;
+            font: 400 9px "DM Mono", monospace;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .project-name {
+            font: 600 clamp(3rem, 6vw, 7rem) "Space Grotesk", sans-serif;
+            letter-spacing: -0.08em;
+            line-height: 0.82;
+        }
+
+        .project-name span {
+            display: block;
+            color: #555;
+        }
+
+        .project-copy {
+            max-width: 330px;
+            margin-top: 35px;
+            color: #777;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .project-visual {
+            position: relative;
+            height: 58vh;
+            min-height: 400px;
+            overflow: hidden;
+            background: #111;
+            clip-path: inset(0);
+        }
+
+        .project-visual img,
+        .experiment img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .project-visual img {
+            filter: grayscale(100%);
+            transform: scale(1.08);
+            transition: filter 0.7s ease, transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .project:hover .project-visual img {
+            filter: grayscale(0);
+            transform: scale(1);
+        }
+
+        .project-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.65));
+            pointer-events: none;
+        }
+
+        .project-number-large {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            color: rgba(255, 255, 255, 0.08);
+            font: 700 14vw "Space Grotesk", sans-serif;
+            letter-spacing: -0.1em;
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .project-meta {
+            align-self: end;
+            padding-bottom: 35px;
+            color: #777;
+            font: 400 9px "DM Mono", monospace;
+            letter-spacing: 0.08em;
+            line-height: 2;
+            text-transform: uppercase;
+        }
+
+        .project-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            margin-bottom: 20px;
+            border: 1px solid #444;
+            border-radius: 50%;
+            transition: all 0.35s ease;
+        }
+
+        .project:hover .project-arrow {
+            border-color: var(--acid);
+            background: var(--acid);
+            color: #050505;
+            transform: rotate(-45deg);
+        }
+
+        .horizontal-section {
+            position: relative;
+            height: 100vh;
+            min-height: 760px;
+            overflow: hidden;
+            background: #0b0b0b;
+        }
+
+        .horizontal-stage {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .horizontal-title {
+            position: absolute;
+            top: 10vh;
+            left: 5vw;
+            z-index: 5;
+            margin: 0;
+            pointer-events: none;
+        }
+
+        .horizontal-title .section-title {
+            font-size: clamp(3.5rem, 7vw, 8rem);
+        }
+
+        .horizontal-track {
+            display: flex;
+            align-items: center;
+            width: max-content;
+            gap: 24px;
+            padding-right: 10vw;
+            padding-left: 5vw;
+            will-change: transform;
+        }
+
+        .experiment {
+            position: relative;
+            flex: none;
+            width: min(42vw, 680px);
+            height: min(58vh, 500px);
+            min-height: 380px;
+            overflow: hidden;
+            background: #151515;
+        }
+
+        .experiment:nth-child(2) {
+            margin-top: 70px;
+        }
+
+        .experiment:nth-child(3) {
+            margin-top: -50px;
+        }
+
+        .experiment:nth-child(4) {
+            margin-top: 50px;
+        }
+
+        .experiment img {
+            filter: grayscale(100%);
+            transition: filter 0.6s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .experiment:hover img {
+            filter: grayscale(0);
+            transform: scale(1.04);
+        }
+
+        .experiment::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.82), transparent 55%);
+            pointer-events: none;
+        }
+
+        .experiment-label {
+            position: absolute;
+            bottom: 25px;
+            left: 28px;
+            z-index: 2;
+            color: white;
+            font: 400 10px "DM Mono", monospace;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .experiment-label strong {
+            display: block;
+            margin-top: 5px;
+            font: 600 30px "Space Grotesk", sans-serif;
+            letter-spacing: -0.05em;
+        }
+
+        .about {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 10vw;
+        }
+
+        .about-big {
+            font: 500 clamp(3rem, 6vw, 7rem) "Space Grotesk", sans-serif;
+            letter-spacing: -0.075em;
+            line-height: 0.92;
+        }
+
+        .about-big .dim {
+            color: #444;
+        }
+
+        .about-copy {
+            padding-top: 15px;
+        }
+
+        .about-copy p {
+            max-width: 560px;
+            margin-bottom: 35px;
+            color: #888;
+            font-size: 15px;
+            line-height: 2;
+        }
+
+        .about-copy p strong {
+            color: #eee;
+            font-weight: 500;
+        }
+
+        .about-facts {
+            border-top: 1px solid var(--line);
+        }
+
+        .fact {
+            display: flex;
+            justify-content: space-between;
+            padding: 17px 0;
+            border-bottom: 1px solid var(--line);
+            font: 400 10px "DM Mono", monospace;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+        }
+
+        .fact span:last-child {
+            color: #777;
+        }
+
+        .stack-section {
+            padding: 150px 5vw;
+            color: #0a0a0a;
+            background: #f1f1ec;
+        }
+
+        .stack-section .section-kicker {
+            color: #555;
+        }
+
+        .stack-section .section-number {
+            color: #aaa;
+        }
+
+        .stack-list {
+            margin-top: 70px;
+            border-top: 1px solid rgba(0, 0, 0, 0.2);
+        }
+
+        .stack-item {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 22px 0;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        }
+
+        .stack-name {
+            font: 500 clamp(2.5rem, 6vw, 7rem) "Space Grotesk", sans-serif;
+            letter-spacing: -0.07em;
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .stack-item:hover .stack-name {
+            transform: translateX(20px);
+        }
+
+        .stack-type,
+        .stack-num {
+            color: #777;
+            font: 400 9px "DM Mono", monospace;
+            text-transform: uppercase;
+        }
+
+        .stack-num {
+            width: 60px;
+            color: #999;
+        }
+
+        .timeline {
+            position: relative;
+            margin-top: 80px;
+        }
+
+        .timeline-line,
+        .timeline-progress {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .timeline-line {
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: var(--line);
+        }
+
+        .timeline-progress {
+            top: 0;
+            width: 2px;
+            height: 0;
+            background: var(--acid);
+        }
+
+        .timeline-item {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 280px;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            grid-column: 1;
+            padding-right: 12%;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            grid-column: 2;
+            padding-left: 12%;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            z-index: 2;
+            width: 11px;
+            height: 11px;
+            border: 1px solid #555;
+            border-radius: 50%;
+            background: #111;
+            transform: translateX(-50%);
+        }
+
+        .timeline-item.active .timeline-dot {
+            border-color: var(--acid);
+            background: var(--acid);
+            box-shadow: 0 0 25px rgba(200, 255, 0, 0.4);
+        }
+
+        .timeline-year {
+            margin-bottom: 15px;
+            color: var(--acid);
+            font: 400 10px "DM Mono", monospace;
+        }
+
+        .timeline-title {
+            margin-bottom: 15px;
+            font: 500 30px "Space Grotesk", sans-serif;
+            letter-spacing: -0.05em;
+        }
+
+        .timeline-text {
+            color: #777;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .contact {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 85vh;
+        }
+
+        .contact-kicker {
+            margin-bottom: 30px;
+            color: #777;
+            font: 400 10px "DM Mono", monospace;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .contact-title {
+            font: 600 clamp(4rem, 11vw, 13rem) "Space Grotesk", sans-serif;
+            letter-spacing: -0.095em;
+            line-height: 0.78;
+        }
+
+        .contact-title .line {
+            display: block;
+        }
+
+        .contact-title .acid {
+            color: var(--acid);
+        }
+
+        .contact-bottom {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-top: 80px;
+        }
+
+        .contact-email {
+            padding-bottom: 7px;
+            border-bottom: 1px solid #444;
+            color: #999;
+            font: 400 12px "DM Mono", monospace;
+            text-decoration: none;
+        }
+
+        .contact-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 125px;
+            height: 125px;
+            border-radius: 50%;
+            color: #050505;
+            background: var(--acid);
+            font: 500 10px "DM Mono", monospace;
+            line-height: 1.4;
+            text-align: center;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .contact-button:hover {
+            transform: scale(1.12) rotate(-10deg);
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            padding: 25px 5vw;
+            border-top: 1px solid var(--line);
+            color: #555;
+            font: 400 9px "DM Mono", monospace;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .footer a {
+            color: #777;
+            text-decoration: none;
+        }
+
+        .terminal {
+            position: fixed;
+            inset: 0;
+            z-index: 15000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(15px);
+        }
+
+        .terminal.open {
+            display: flex;
+        }
+
+        .terminal-window {
+            width: min(850px, 100%);
+            border: 1px solid #333;
+            background: #0b0b0b;
+            box-shadow: 0 30px 100px rgba(0, 0, 0, 0.7);
+        }
+
+        .terminal-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 42px;
+            padding: 0 15px;
+            border-bottom: 1px solid #222;
+            color: #666;
+            font: 400 9px "DM Mono", monospace;
+        }
+
+        .terminal-head button {
+            border: 0;
+            color: #777;
+            background: none;
+        }
+
+        .terminal-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .terminal-dots span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #333;
+        }
+
+        .terminal-body {
+            height: 430px;
+            padding: 20px;
+            overflow-y: auto;
+            color: #aaa;
+            font: 400 11px/1.8 "DM Mono", monospace;
+        }
+
+        .terminal-input {
+            display: flex;
+            gap: 10px;
+            padding: 12px 20px;
+            border-top: 1px solid #222;
+        }
+
+        .terminal-input span {
+            color: var(--acid);
+        }
+
+        .terminal-input input {
+            width: 100%;
+            border: 0;
+            outline: 0;
+            color: white;
+            background: none;
+            font: 400 11px "DM Mono", monospace;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            inset: 0;
+            z-index: 450;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            padding: 10vw;
+            background: #080808;
+        }
+
+        .mobile-menu.open {
+            display: flex;
+        }
+
+        .mobile-menu a {
+            color: white;
+            font: 600 clamp(3rem, 12vw, 6rem) "Space Grotesk", sans-serif;
+            letter-spacing: -0.08em;
+            line-height: 1.05;
+            text-decoration: none;
+        }
+
+        .mobile-menu small {
+            margin-bottom: 30px;
+            color: #555;
+            font: 400 9px "DM Mono", monospace;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+        }
+
+        @media (max-width: 900px) {
+            body {
+                cursor: auto;
+            }
+
+            .cursor,
+            .cursor-dot,
+            .cursor-label {
+                display: none;
+            }
+
+            .nav {
+                height: 72px;
+                padding: 0 5vw;
+            }
+
+            .nav-links,
+            .nav-status {
+                display: none;
+            }
+
+            .menu-btn {
+                display: block;
+            }
+
+            .hero {
+                padding: 110px 5vw 50px;
+            }
+
+            .hero-top {
+                margin-bottom: 8vh;
+            }
+
+            .hero-location {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: clamp(4.3rem, 19vw, 10rem);
+                line-height: 0.76;
+            }
+
+            .hero-bottom {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                margin-top: 8vh;
+            }
+
+            .hero-year {
+                text-align: left;
+            }
+
+            .float-orb {
+                top: 25%;
+                right: -15vw;
+                width: 65vw;
+                height: 65vw;
+            }
+
+            .section {
+                padding: 100px 5vw;
+            }
+
+            .section-head {
+                display: block;
+                margin-bottom: 55px;
+            }
+
+            .section-number {
+                margin-bottom: 25px;
+            }
+
+            .project {
+                display: block;
+                min-height: auto;
+                padding: 55px 0;
+            }
+
+            .project-index {
+                padding: 0;
+                margin-bottom: 25px;
+            }
+
+            .project-info {
+                margin-bottom: 40px;
+            }
+
+            .project-name {
+                font-size: clamp(3.5rem, 15vw, 7rem);
+            }
+
+            .project-visual {
+                height: 55vw;
+                min-height: 280px;
+            }
+
+            .project-meta {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 25px 0 0;
+            }
+
+            .project-arrow {
+                margin: 0;
+            }
+
+            .horizontal-section {
+                height: auto;
+                min-height: 0;
+                padding: 100px 0;
+                overflow: hidden;
+            }
+
+            .horizontal-stage {
+                display: block;
+                height: auto;
+                overflow: visible;
+            }
+
+            .horizontal-title {
+                position: relative;
+                top: auto;
+                left: auto;
+                margin-bottom: 55px;
+                padding: 0 5vw;
+            }
+
+            .horizontal-track {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                gap: 25px;
+                padding: 0 5vw;
+            }
+
+            .experiment {
+                width: 100%;
+                height: 55vw;
+                min-height: 260px;
+            }
+
+            .experiment:nth-child(2),
+            .experiment:nth-child(3),
+            .experiment:nth-child(4) {
+                margin-top: 0;
+            }
+
+            .experiment-label strong {
+                font-size: 25px;
+            }
+
+            .about {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+
+            .stack-section {
+                padding: 100px 5vw;
+            }
+
+            .stack-name {
+                font-size: clamp(2.5rem, 11vw, 6rem);
+            }
+
+            .timeline-line,
+            .timeline-progress {
+                left: 10px;
+            }
+
+            .timeline-item {
+                display: block;
+                min-height: 250px;
+                padding-left: 40px;
+            }
+
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                padding: 0;
+                text-align: left;
+            }
+
+            .timeline-dot {
+                left: 10px;
+            }
+
+            .contact {
+                min-height: 75vh;
+            }
+
+            .contact-title {
+                font-size: clamp(4rem, 17vw, 9rem);
+            }
+
+            .contact-bottom {
+                display: block;
+                margin-top: 60px;
+            }
+
+            .contact-button {
+                width: 100px;
+                height: 100px;
+                margin-top: 40px;
+            }
+
+            .footer {
+                display: block;
+                line-height: 2;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                animation: none !important;
+                transition: none !important;
+            }
+
+            .reveal {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+        }
+    </style>
 </head>
+
 <body>
-
-<div class="page-loader" id="loader">
-<div>
-<div class="loader-number" id="loaderNumber">00</div>
-<div class="loader-meta">DWI / DIGITAL BUILDER</div>
-</div>
-<div class="loader-meta">Samarinda / Indonesia<br>Loading experience...</div>
-<div class="loader-line"><span id="loaderLine"></span></div>
-</div>
-
-<div class="noise"></div>
-<div class="cursor" id="cursor"></div>
-<div class="cursor-dot" id="cursorDot"></div>
-<div class="cursor-label" id="cursorLabel">VIEW</div>
-
-<nav class="nav">
-<a href="#home" class="logo magnetic">DWI<span>.</span></a>
-<div class="nav-links">
-<a href="#work">Work</a>
-<a href="#about">About</a>
-<a href="#stack">Stack</a>
-<a href="#journey">Journey</a>
-<a href="#contact">Contact</a>
-</div>
-<div class="nav-status">
-<span class="status-dot"></span>
-Available for work
-</div>
-<button class="menu-btn" id="menuBtn">MENU /</button>
-</nav>
-
-<div class="mobile-menu" id="mobileMenu">
-<small>NAVIGATION / DWI PUTRA</small>
-<a href="#work">01 — Work</a>
-<a href="#about">02 — About</a>
-<a href="#stack">03 — Stack</a>
-<a href="#journey">04 — Journey</a>
-<a href="#contact">05 — Contact</a>
-</div>
-
-<main id="smooth-content">
-
-<section class="hero" id="home">
-<canvas class="hero-canvas" id="heroCanvas"></canvas>
-<div class="hero-grid"></div>
-<div class="float-orb" id="orb"></div>
-
-<div class="hero-content">
-<div class="hero-top">
-<div class="eyebrow">
-FULL STACK WEB DEVELOPER<br>
-INFORMATICS STUDENT
-</div>
-<div class="hero-location">
-Samarinda, Indonesia<br>
-01 / 08 / 2026
-</div>
-</div>
-
-<h1 class="hero-title" id="heroTitle">
-<span class="line"><span class="word">DWI</span></span>
-<span class="line"><span class="word outline">PUTRA</span></span>
-<span class="line"><span class="word accent">DEV.</span></span>
-</h1>
-
-<div class="hero-bottom">
-<div class="hero-description">
-I build <strong>digital systems</strong> that turn complex data into interfaces people can actually understand, use, and trust.
-</div>
-
-<div class="scroll-indicator">
-<span class="scroll-line"><span></span></span>
-Scroll to explore
-</div>
-
-<div class="hero-year">
-EST. 2024<br>
-WEB / DATA / SYSTEMS
-</div>
-</div>
-</div>
-</section>
-
-<div class="marquee-wrap">
-<div class="marquee">
-<span>BUILD</span>
-<span class="acid">THINK</span>
-<span>SHIP</span>
-<span>REPEAT</span>
-<span>BUILD</span>
-<span class="acid">THINK</span>
-<span>SHIP</span>
-<span>REPEAT</span>
-</div>
-</div>
-
-<section class="section" id="work">
-<div class="section-head reveal">
-<div>
-<div class="section-kicker">01 / Selected Work</div>
-<h2 class="section-title">Things I've<br><em>built.</em></h2>
-</div>
-<div class="section-number">SCROLL / PROJECTS</div>
-</div>
-
-<div class="projects">
-
-<article class="project reveal project-trigger" data-project="dapodik">
-<div class="project-index">01</div>
-<div class="project-info">
-<div class="project-category">Data System / Dashboard / 2026</div>
-<h3 class="project-name">Dapodik<span>System.</span></h3>
-<p class="project-copy">
-Sistem web untuk mengubah data pendidikan yang kompleks menjadi dashboard yang lebih cepat, terstruktur, dan mudah dibaca.
-</p>
-</div>
-
-<div class="project-visual magnetic-image">
-<img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1800&q=85" alt="Data dashboard">
-<div class="project-overlay"></div>
-<div class="project-number-large">01</div>
-</div>
-
-<div class="project-meta">
-<div class="project-arrow">↗</div>
-<div>Laravel / API<br>Database / UI</div>
-</div>
-</article>
-
-<article class="project reveal project-trigger" data-project="portfolio">
-<div class="project-index">02</div>
-<div class="project-info">
-<div class="project-category">Creative Development / Web / 2026</div>
-<h3 class="project-name">Portfolio<span>Experience.</span></h3>
-<p class="project-copy">
-Eksperimen personal untuk menggabungkan development, motion, typography, dan storytelling dalam satu pengalaman web.
-</p>
-</div>
-
-<div class="project-visual magnetic-image">
-<img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=1800&q=85" alt="Creative workspace">
-<div class="project-overlay"></div>
-<div class="project-number-large">02</div>
-</div>
-
-<div class="project-meta">
-<div class="project-arrow">↗</div>
-<div>JavaScript / GSAP<br>Creative UI</div>
-</div>
-</article>
-
-<article class="project reveal project-trigger" data-project="systems">
-<div class="project-index">03</div>
-<div class="project-info">
-<div class="project-category">Full Stack / Experiment / 2025—26</div>
-<h3 class="project-name">Digital<span>Systems.</span></h3>
-<p class="project-copy">
-Berbagai eksperimen membangun aplikasi web, API, database, deployment cloud, dan workflow development.
-</p>
-</div>
-
-<div class="project-visual magnetic-image">
-<img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1800&q=85" alt="Code editor">
-<div class="project-overlay"></div>
-<div class="project-number-large">03</div>
-</div>
-
-<div class="project-meta">
-<div class="project-arrow">↗</div>
-<div>Full Stack<br>Docker / Cloud</div>
-</div>
-</article>
-
-</div>
-</section>
-
-<!-- ==========================================
-HORIZONTAL SHOWCASE
-========================================== -->
-
-<section class="horizontal-section" id="experiments">
-<div class="horizontal-stage">
-
-<div class="horizontal-title">
-<div class="section-kicker">Experiments / Playground</div>
-<h2 class="section-title">
-Beyond<br>
-<em>the usual.</em>
-</h2>
-</div>
-
-<div class="horizontal-track" id="horizontalTrack">
-
-<div class="experiment magnetic-image">
-<img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1400&q=85" alt="Technology">
-<div class="experiment-label">
-01 / Experiment
-<strong>Interface.</strong>
-</div>
-</div>
-
-<div class="experiment magnetic-image">
-<img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=85" alt="Circuit board">
-<div class="experiment-label">
-02 / Experiment
-<strong>Hardware × Code.</strong>
-</div>
-</div>
-
-<div class="experiment magnetic-image">
-<img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=1400&q=85" alt="Mobile application">
-<div class="experiment-label">
-03 / Experiment
-<strong>Mobile Flow.</strong>
-</div>
-</div>
-
-<div class="experiment magnetic-image">
-<img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1400&q=85" alt="Programming">
-<div class="experiment-label">
-04 / Experiment
-<strong>Clean Code.</strong>
-</div>
-</div>
-
-</div>
-</div>
-</section>
-
-<section class="section" id="about">
-<div class="section-head reveal">
-<div>
-<div class="section-kicker">02 / About</div>
-<h2 class="section-title">Not just<br><em>a coder.</em></h2>
-</div>
-<div class="section-number">DWI / PROFILE</div>
-</div>
-
-<div class="about">
-
-<div class="about-big reveal">
-I like turning<br>
-<span class="dim">messy problems</span><br>
-into simple<br>
-systems.
-</div>
-
-<div class="about-copy reveal">
-<p>
-Halo, saya <strong>Dwi Putra Setiawan</strong>. Saya mahasiswa Informatika di Universitas Muhammadiyah Kalimantan Timur yang tertarik pada pengembangan web, pengolahan data, backend system, dan pengalaman antarmuka yang terasa hidup.
-</p>
-
-<p>
-Saya tidak terlalu tertarik membuat website yang cuma terlihat bagus. Saya lebih suka membuat sesuatu yang <strong>punya fungsi, punya alur, dan benar-benar bisa dipakai.</strong>
-</p>
-
-<div class="about-facts">
-<div class="fact">
-<span>Based</span>
-<span>Samarinda, Kaltim</span>
-</div>
-<div class="fact">
-<span>Focus</span>
-<span>Full Stack / Data Systems</span>
-</div>
-<div class="fact">
-<span>Education</span>
-<span>Informatics — UMKT</span>
-</div>
-<div class="fact">
-<span>Status</span>
-<span>Open for Projects</span>
-</div>
-</div>
-</div>
-
-</div>
-</section>
-
-<section class="stack-section" id="stack">
-
-<div class="section-head reveal">
-<div>
-<div class="section-kicker">03 / Toolkit</div>
-<h2 class="section-title">Tools I<br><em>trust.</em></h2>
-</div>
-<div class="section-number">TECH STACK / 2026</div>
-</div>
-
-<div class="stack-list">
-
-<div class="stack-item reveal">
-<span class="stack-num">01</span>
-<span class="stack-name">Laravel</span>
-<span class="stack-type">Backend</span>
-</div>
-
-<div class="stack-item reveal">
-<span class="stack-num">02</span>
-<span class="stack-name">React</span>
-<span class="stack-type">Frontend</span>
-</div>
-
-<div class="stack-item reveal">
-<span class="stack-num">03</span>
-<span class="stack-name">JavaScript</span>
-<span class="stack-type">Interaction</span>
-</div>
-
-<div class="stack-item reveal">
-<span class="stack-num">04</span>
-<span class="stack-name">Python</span>
-<span class="stack-type">Logic / Data</span>
-</div>
-
-<div class="stack-item reveal">
-<span class="stack-num">05</span>
-<span class="stack-name">MySQL</span>
-<span class="stack-type">Database</span>
-</div>
-
-<div class="stack-item reveal">
-<span class="stack-num">06</span>
-<span class="stack-name">Docker</span>
-<span class="stack-type">Infrastructure</span>
-</div>
-
-<div class="stack-item reveal">
-<span class="stack-num">07</span>
-<span class="stack-name">Git</span>
-<span class="stack-type">Version Control</span>
-</div>
-
-</div>
-</section>
-
-<section class="section" id="journey">
-
-<div class="section-head reveal">
-<div>
-<div class="section-kicker">04 / Journey</div>
-<h2 class="section-title">Still<br><em>becoming.</em></h2>
-</div>
-<div class="section-number">2024 — NOW</div>
-</div>
-
-<div class="timeline">
-
-<div class="timeline-line"></div>
-<div class="timeline-progress" id="timelineProgress"></div>
-
-<div class="timeline-item reveal">
-<div class="timeline-content">
-<div class="timeline-year">2024</div>
-<h3 class="timeline-title">The Beginning</h3>
-<p class="timeline-text">
-Mulai mendalami fundamental pemrograman, HTML, CSS, JavaScript, algoritma, dan pengembangan web saat berada di SMKN 7 Samarinda.
-</p>
-</div>
-<div></div>
-<div class="timeline-dot"></div>
-</div>
-
-<div class="timeline-item reveal">
-<div></div>
-<div class="timeline-content">
-<div class="timeline-year">2025</div>
-<h3 class="timeline-title">UMKT</h3>
-<p class="timeline-text">
-Masuk Informatika Universitas Muhammadiyah Kalimantan Timur dan mulai membangun lebih banyak project kampus, web application, database, dan API.
-</p>
-</div>
-<div class="timeline-dot"></div>
-</div>
-
-<div class="timeline-item reveal">
-<div class="timeline-content">
-<div class="timeline-year">2026</div>
-<h3 class="timeline-title">Building Systems</h3>
-<p class="timeline-text">
-Mulai fokus pada project yang lebih kompleks: dashboard data, deployment cloud, backend architecture, automation, dan workflow development berbasis AI.
-</p>
-</div>
-<div></div>
-<div class="timeline-dot"></div>
-</div>
-
-</div>
-</section>
-
-<section class="section contact" id="contact">
-
-<div class="contact-kicker reveal">
-05 / Let's work together
-</div>
-
-<h2 class="contact-title reveal">
-<span class="line">HAVE A</span>
-<span class="line">PROJECT<span class="acid">?</span></span>
-</h2>
-
-<div class="contact-bottom reveal">
-
-<a class="contact-email magnetic" href="mailto:dwiputrasetiawan0406@gmail.com">
-dwiputrasetiawan0406@gmail.com
-</a>
-
-<a class="contact-button magnetic" href="https://wa.me/6282252262909" target="_blank" rel="noopener">
-Let's<br>Talk ↗
-</a>
-
-</div>
-</section>
-
-<footer class="footer">
-<span>© 2026 DWI PUTRA SETIAWAN</span>
-<span>BUILT WITH CODE / CURIOSITY / AI</span>
-<a href="https://github.com/dwiputra06" target="_blank" rel="noopener">
-GITHUB ↗
-</a>
-</footer>
-
-</main>
-
-<div class="terminal" id="terminal">
-
-<div class="terminal-window">
-
-<div class="terminal-head">
-
-<div class="terminal-dots">
-<span></span>
-<span></span>
-<span></span>
-</div>
-
-<span>DWI@Samarinda:~</span>
-
-<button id="closeTerminal">
-ESC / CLOSE
-</button>
-
-</div>
-
-<div class="terminal-body" id="terminalBody">
-<div style="color:#c8ff00">
-DWI TERMINAL v3.0
-</div>
-
-<div style="color:#555">
-Type "help" to see available commands.
-</div>
-
-<br>
-</div>
-
-<div class="terminal-input">
-<span>›</span>
-<input id="terminalInput" autocomplete="off" spellcheck="false" placeholder="type a command...">
-</div>
-
-</div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.8/dist/lenis.min.js"></script>
-
-<script>
-gsap.registerPlugin(ScrollTrigger);
-
-const reduceMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-/* ==========================================
-LOADER
-========================================== */
-
-const loader=document.getElementById("loader");
-const loaderNumber=document.getElementById("loaderNumber");
-const loaderLine=document.getElementById("loaderLine");
-
-const loaderValue={value:0};
-
-gsap.to(loaderValue,{
-value:100,
-duration:1.7,
-ease:"power2.inOut",
-onUpdate:()=>{
-loaderNumber.textContent=Math.floor(loaderValue.value).toString().padStart(2,"0");
-loaderLine.style.width=loaderValue.value+"%";
-},
-onComplete:()=>{
-const tl=gsap.timeline();
-
-tl.to(loaderNumber,{
-y:"-20%",
-opacity:0,
-duration:.35,
-ease:"power2.in"
-})
-.to(loader,{
-clipPath:"inset(0 0 100% 0)",
-duration:.8,
-ease:"power4.inOut",
-onComplete:()=>{
-loader.remove();
-}
-})
-.from(".hero .eyebrow",{
-y:30,
-opacity:0,
-duration:.6
-},"-=.35")
-.from(".hero-bottom",{
-y:30,
-opacity:0,
-duration:.7
-},"-=.35");
-}
-});
-
-/* ==========================================
-CURSOR
-========================================== */
-
-const cursor=document.getElementById("cursor");
-const cursorDot=document.getElementById("cursorDot");
-const cursorLabel=document.getElementById("cursorLabel");
-
-let mouseX=window.innerWidth/2;
-let mouseY=window.innerHeight/2;
-let cursorX=mouseX;
-let cursorY=mouseY;
-let dotX=mouseX;
-let dotY=mouseY;
-
-if(!reduceMotion&&window.innerWidth>900){
-
-window.addEventListener("mousemove",e=>{
-mouseX=e.clientX;
-mouseY=e.clientY;
-});
-
-gsap.ticker.add(()=>{
-cursorX+=(mouseX-cursorX)*.14;
-cursorY+=(mouseY-cursorY)*.14;
-dotX+=(mouseX-dotX)*.5;
-dotY+=(mouseY-dotY)*.5;
-
-cursor.style.left=cursorX+"px";
-cursor.style.top=cursorY+"px";
-cursorDot.style.left=dotX+"px";
-cursorDot.style.top=dotY+"px";
-cursorLabel.style.left=cursorX+"px";
-cursorLabel.style.top=cursorY+"px";
-});
-
-document.querySelectorAll("a,button,.project,.experiment,.stack-item").forEach(el=>{
-
-el.addEventListener("mouseenter",()=>{
-cursor.classList.add("active");
-});
-
-el.addEventListener("mouseleave",()=>{
-cursor.classList.remove("active");
-cursor.classList.remove("text-mode");
-cursorLabel.style.opacity="0";
-});
-
-});
-
-document.querySelectorAll(".project,.experiment").forEach(el=>{
-
-el.addEventListener("mouseenter",()=>{
-cursor.classList.add("text-mode");
-cursorLabel.textContent="VIEW";
-cursorLabel.style.opacity="1";
-});
-
-});
-
-}
-
-/* ==========================================
-PARTICLES
-========================================== */
-
-const canvas=document.getElementById("heroCanvas");
-const ctx=canvas.getContext("2d");
-
-let particles=[];
-let canvasW=0;
-let canvasH=0;
-
-function resizeCanvas(){
-
-canvasW=canvas.width=window.innerWidth*devicePixelRatio;
-canvasH=canvas.height=window.innerHeight*devicePixelRatio;
-
-canvas.style.width=window.innerWidth+"px";
-canvas.style.height=window.innerHeight+"px";
-
-ctx.setTransform(
-devicePixelRatio,
-0,
-0,
-devicePixelRatio,
-0,
-0
-);
-
-particles=[];
-
-const count=window.innerWidth<700?35:75;
-
-for(let i=0;i<count;i++){
-
-particles.push({
-x:Math.random()*window.innerWidth,
-y:Math.random()*window.innerHeight,
-vx:(Math.random()-.5)*.25,
-vy:(Math.random()-.5)*.25,
-r:Math.random()*1.5+.3,
-a:Math.random()*.45+.08
-});
-
-}
-
-}
-
-resizeCanvas();
-window.addEventListener("resize",resizeCanvas);
-
-function animateParticles(){
-
-ctx.clearRect(
-0,
-0,
-window.innerWidth,
-window.innerHeight
-);
-
-if(!reduceMotion){
-
-for(let i=0;i<particles.length;i++){
-
-const p=particles[i];
-
-p.x+=p.vx;
-p.y+=p.vy;
-
-if(p.x<0||p.x>window.innerWidth){
-p.vx*=-1;
-}
-
-if(p.y<0||p.y>window.innerHeight){
-p.vy*=-1;
-}
-
-ctx.beginPath();
-ctx.arc(
-p.x,
-p.y,
-p.r,
-0,
-Math.PI*2
-);
-
-ctx.fillStyle=
-"rgba(200,255,0,"+
-p.a+
-")";
-
-ctx.fill();
-
-for(let j=i+1;j<particles.length;j++){
-
-const q=particles[j];
-
-const dx=p.x-q.x;
-const dy=p.y-q.y;
-
-const dist=Math.sqrt(
-dx*dx+
-dy*dy
-);
-
-if(dist<130){
-
-ctx.beginPath();
-
-ctx.moveTo(
-p.x,
-p.y
-);
-
-ctx.lineTo(
-q.x,
-q.y
-);
-
-ctx.strokeStyle=
-"rgba(255,255,255,"+
-(0.045*(1-dist/130))+
-")";
-
-ctx.stroke();
-
-}
-
-}
-
-}
-
-}
-
-requestAnimationFrame(animateParticles);
-
-}
-
-animateParticles();
-
-/* ==========================================
-ORB
-========================================== */
-
-if(!reduceMotion){
-
-window.addEventListener("mousemove",e=>{
-
-const orb=document.getElementById("orb");
-
-const x=
-(e.clientX/window.innerWidth-.5)*35;
-
-const y=
-(e.clientY/window.innerHeight-.5)*35;
-
-gsap.to(orb,{
-x,
-y,
-duration:1.5,
-ease:"power3.out"
-});
-
-});
-
-}
-
-/* ==========================================
-LENIS
-========================================== */
-
-const lenis=new Lenis({
-duration:1.05,
-smoothWheel:true,
-smoothTouch:false,
-wheelMultiplier:.9,
-syncTouch:false
-});
-
-lenis.on("scroll",ScrollTrigger.update);
-
-gsap.ticker.add(time=>{
-lenis.raf(time*1000);
-});
-
-gsap.ticker.lagSmoothing(0);
-
-/* ==========================================
-HERO ANIMATION
-========================================== */
-
-if(!reduceMotion){
-
-gsap.to(".hero-title .word",{
-y:0,
-duration:1.3,
-stagger:.12,
-delay:1.8,
-ease:"power4.out"
-});
-
-gsap.to(".hero-title",{
-yPercent:25,
-opacity:.25,
-scrollTrigger:{
-trigger:".hero",
-start:"top top",
-end:"bottom top",
-scrub:1
-}
-});
-
-gsap.to(".float-orb",{
-yPercent:80,
-scrollTrigger:{
-trigger:".hero",
-start:"top top",
-end:"bottom top",
-scrub:2
-}
-});
-
-}
-
-/* ==========================================
-REVEAL
-========================================== */
-
-if(!reduceMotion){
-
-document.querySelectorAll(".reveal").forEach(el=>{
-
-gsap.fromTo(
-el,
-{
-y:60,
-opacity:0
-},
-{
-y:0,
-opacity:1,
-duration:1,
-ease:"power3.out",
-scrollTrigger:{
-trigger:el,
-start:"top 88%",
-once:true
-}
-}
-);
-
-});
-
-}else{
-
-document.querySelectorAll(".reveal").forEach(el=>{
-el.style.opacity="1";
-el.style.transform="none";
-});
-
-}
-
-/* ==========================================
-FIXED HORIZONTAL SCROLL
-========================================== */
-
-function setupHorizontal(){
-
-if(window.innerWidth<=900||reduceMotion){
-return;
-}
-
-const section=document.querySelector(".horizontal-section");
-const track=document.querySelector("#horizontalTrack");
-
-if(!section||!track){
-return;
-}
-
-const getDistance=()=>{
-return Math.max(
-0,
-track.scrollWidth-window.innerWidth
-);
-};
-
-const distance=getDistance();
-
-if(distance<=0){
-return;
-}
-
-/*
-Important:
-Jangan lagi pakai scroll distance mentah sebesar
-seluruh lebar track.
-
-Kita kompres durasinya supaya section tidak terasa
-seperti "terjebak" terlalu lama.
-*/
-
-const compressedDistance=Math.min(
-distance,
-window.innerHeight*1.55
-);
-
-const progress=compressedDistance/distance;
-
-gsap.to(track,{
-x:()=>-distance*progress,
-ease:"none",
-scrollTrigger:{
-trigger:section,
-start:"top top",
-end:()=>"+="+compressedDistance,
-scrub:.8,
-pin:true,
-anticipatePin:1,
-invalidateOnRefresh:true
-}
-});
-
-}
-
-setupHorizontal();
-
-/* ==========================================
-TIMELINE
-========================================== */
-
-const timeline=document.querySelector(".timeline");
-const timelineProgress=document.getElementById("timelineProgress");
-
-if(!reduceMotion&&timeline){
-
-gsap.to(timelineProgress,{
-height:"100%",
-ease:"none",
-scrollTrigger:{
-trigger:timeline,
-start:"top 65%",
-end:"bottom 70%",
-scrub:1
-}
-});
-
-document.querySelectorAll(".timeline-item").forEach(item=>{
-
-ScrollTrigger.create({
-
-trigger:item,
-
-start:"top 65%",
-end:"bottom 65%",
-
-onEnter:()=>{
-item.classList.add("active");
-},
-
-onEnterBack:()=>{
-item.classList.add("active");
-},
-
-onLeave:()=>{
-item.classList.remove("active");
-},
-
-onLeaveBack:()=>{
-item.classList.remove("active");
-}
-
-});
-
-});
-
-}
-
-/* ==========================================
-MAGNETIC
-========================================== */
-
-document.querySelectorAll(".magnetic").forEach(el=>{
-
-if(window.innerWidth<=900||reduceMotion){
-return;
-}
-
-el.addEventListener("mousemove",e=>{
-
-const rect=el.getBoundingClientRect();
-
-const x=
-(e.clientX-rect.left-rect.width/2)*.22;
-
-const y=
-(e.clientY-rect.top-rect.height/2)*.22;
-
-gsap.to(el,{
-x,
-y,
-duration:.35,
-ease:"power3.out"
-});
-
-});
-
-el.addEventListener("mouseleave",()=>{
-
-gsap.to(el,{
-x:0,
-y:0,
-duration:.6,
-ease:"elastic.out(1,.4)"
-});
-
-});
-
-});
-
-/* ==========================================
-IMAGE MAGNETIC
-========================================== */
-
-document.querySelectorAll(".magnetic-image").forEach(el=>{
-
-if(window.innerWidth<=900||reduceMotion){
-return;
-}
-
-const image=el.querySelector("img");
-
-if(!image){
-return;
-}
-
-el.addEventListener("mousemove",e=>{
-
-const rect=el.getBoundingClientRect();
-
-const x=
-(e.clientX-rect.left)/rect.width-.5;
-
-const y=
-(e.clientY-rect.top)/rect.height-.5;
-
-gsap.to(image,{
-x:x*12,
-y:y*12,
-duration:.7,
-ease:"power3.out"
-});
-
-});
-
-el.addEventListener("mouseleave",()=>{
-
-gsap.to(image,{
-x:0,
-y:0,
-duration:.8,
-ease:"power3.out"
-});
-
-});
-
-});
-
-/* ==========================================
-MOBILE MENU
-========================================== */
-
-const menuBtn=document.getElementById("menuBtn");
-const mobileMenu=document.getElementById("mobileMenu");
-
-menuBtn.addEventListener("click",()=>{
-
-mobileMenu.classList.toggle("open");
-
-menuBtn.textContent=
-mobileMenu.classList.contains("open")
-?"CLOSE ×"
-:"MENU /";
-
-});
-
-document.querySelectorAll(".mobile-menu a").forEach(link=>{
-
-link.addEventListener("click",()=>{
-
-mobileMenu.classList.remove("open");
-
-menuBtn.textContent="MENU /";
-
-});
-
-});
-
-/* ==========================================
-ANCHOR SCROLL
-========================================== */
-
-document.querySelectorAll('a[href^="#"]').forEach(link=>{
-
-link.addEventListener("click",e=>{
-
-const href=link.getAttribute("href");
-
-if(!href||href==="#"){
-return;
-}
-
-const target=document.querySelector(href);
-
-if(!target){
-return;
-}
-
-e.preventDefault();
-
-lenis.scrollTo(target,{
-offset:-20,
-duration:1.2
-});
-
-});
-
-});
-
-/* ==========================================
-TERMINAL
-========================================== */
-
-const terminal=document.getElementById("terminal");
-const terminalInput=document.getElementById("terminalInput");
-const terminalBody=document.getElementById("terminalBody");
-
-function openTerminal(){
-
-terminal.classList.add("open");
-
-setTimeout(()=>{
-terminalInput.focus();
-},100);
-
-}
-
-function closeTerminal(){
-
-terminal.classList.remove("open");
-
-}
-
-document.querySelector(".logo").addEventListener(
-"dblclick",
-openTerminal
-);
-
-document.getElementById("closeTerminal").addEventListener(
-"click",
-closeTerminal
-);
-
-document.addEventListener("keydown",e=>{
-
-if(e.key==="Escape"){
-closeTerminal();
-}
-
-if(e.key==="`"){
-openTerminal();
-}
-
-});
-
-/* ==========================================
-TERMINAL COMMANDS
-========================================== */
-
-const commands={
-
-help:`
-<div style="color:#aaa">AVAILABLE COMMANDS</div>
-<div><span style="color:#c8ff00">whoami</span> — about Dwi</div>
-<div><span style="color:#c8ff00">projects</span> — selected projects</div>
-<div><span style="color:#c8ff00">stack</span> — technology stack</div>
-<div><span style="color:#c8ff00">contact</span> — contact information</div>
-<div><span style="color:#c8ff00">github</span> — open GitHub</div>
-<div><span style="color:#c8ff00">clear</span> — clear terminal</div>
-`,
-
-whoami:`
-<div style="color:#c8ff00">Dwi Putra Setiawan</div>
-<div>Full Stack Web Developer / Informatics Student</div>
-<div>Samarinda, Indonesia</div>
-`,
-
-projects:`
-<div style="color:#c8ff00">01 — Dapodik System</div>
-<div>02 — Portfolio Experience</div>
-<div>03 — Digital Systems</div>
-`,
-
-stack:`
-<div>Laravel / React / JavaScript / Python / MySQL / Docker / Git</div>
-`,
-
-contact:`
-<div>WA: 082252262909</div>
-<div>Email: dwiputrasetiawan0406@gmail.com</div>
-`,
-
-github:`
-<div>Opening GitHub...</div>
-`,
-
-clear:""
-
-};
-
-terminalInput.addEventListener("keydown",e=>{
-
-if(e.key!=="Enter"){
-return;
-}
-
-const value=terminalInput.value.trim().toLowerCase();
-
-if(!value){
-return;
-}
-
-terminalBody.innerHTML+=
-`<div style="margin-top:10px">
-<span style="color:#c8ff00">›</span> ${value}
-</div>`;
-
-if(commands[value]!==undefined){
-
-terminalBody.innerHTML+=commands[value];
-
-if(value==="github"){
-
-window.open(
-"https://github.com/dwiputra06",
-"_blank"
-);
-
-}
-
-}else{
-
-terminalBody.innerHTML+=
-`<div style="color:#ff5d5d">
-command not found: ${value}
-</div>`;
-
-}
-
-terminalInput.value="";
-terminalBody.scrollTop=terminalBody.scrollHeight;
-
-});
-
-/* ==========================================
-PROJECT DATA
-========================================== */
-
-const projectData={
-
-dapodik:{
-title:"Dapodik System",
-text:"Dashboard web yang dirancang untuk mengolah dan menyajikan data pendidikan secara lebih terstruktur. Fokus utama berada pada data visualization, API, database, dan pengalaman pengguna.",
-tech:"Laravel / REST API / Database / Railway",
-link:"https://dapodik-web-production.up.railway.app/"
-},
-
-portfolio:{
-title:"Portfolio Experience",
-text:"Portfolio personal yang dibuat sebagai eksperimen creative development dengan typography besar, scroll animation, interaction, custom cursor, dan storytelling.",
-tech:"JavaScript / GSAP / CSS / Canvas",
-link:"https://dwiputra06.github.io/"
-},
-
-systems:{
-title:"Digital Systems",
-text:"Kumpulan eksperimen pengembangan aplikasi web, backend, database, API, Docker, deployment, dan automation workflow.",
-tech:"Full Stack / Docker / Git / Cloud",
-link:"https://github.com/dwiputra06"
-}
-
-};
-
-document.querySelectorAll(".project-trigger").forEach(project=>{
-
-project.addEventListener("click",()=>{
-
-const data=projectData[project.dataset.project];
-
-if(!data){
-return;
-}
-
-terminal.classList.add("open");
-
-terminalBody.innerHTML=`
-<div style="color:#c8ff00">
-PROJECT / ${data.title.toUpperCase()}
-</div>
-
-<br>
-
-<div>${data.text}</div>
-
-<br>
-
-<div style="color:#777">
-STACK
-</div>
-
-<div>${data.tech}</div>
-
-<br>
-
-<div style="color:#777">
-LIVE / SOURCE
-</div>
-
-<div style="color:#c8ff00">
-${data.link}
-</div>
-
-<br>
-
-<div style="color:#555">
-Press ESC to close.
-</div>
-`;
-
-});
-
-});
-
-/* ==========================================
-REFRESH AFTER IMAGES LOAD
-========================================== */
-
-window.addEventListener("load",()=>{
-
-setTimeout(()=>{
-
-ScrollTrigger.refresh();
-
-},500);
-
-});
-
-window.addEventListener("resize",()=>{
-
-ScrollTrigger.refresh();
-
-});
-
-</script>
+    <div class="page-loader" id="loader">
+        <div>
+            <div class="loader-number" id="loaderNumber">00</div>
+            <div class="loader-meta">DWI / DIGITAL BUILDER</div>
+        </div>
+
+        <div class="loader-meta">
+            Samarinda / Indonesia<br>
+            Loading experience...
+        </div>
+
+        <div class="loader-line">
+            <span id="loaderLine"></span>
+        </div>
+    </div>
+
+    <div class="noise"></div>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-label" id="cursorLabel">VIEW</div>
+
+    <nav class="nav">
+        <a href="#home" class="logo magnetic">DWI<span>.</span></a>
+
+        <div class="nav-links">
+            <a href="#work">Work</a>
+            <a href="#about">About</a>
+            <a href="#stack">Stack</a>
+            <a href="#journey">Journey</a>
+            <a href="#contact">Contact</a>
+        </div>
+
+        <div class="nav-status">
+            <span class="status-dot"></span>
+            Available for work
+        </div>
+
+        <button class="menu-btn" id="menuBtn">MENU /</button>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <small>NAVIGATION / DWI PUTRA</small>
+        <a href="#work">01 — Work</a>
+        <a href="#about">02 — About</a>
+        <a href="#stack">03 — Stack</a>
+        <a href="#journey">04 — Journey</a>
+        <a href="#contact">05 — Contact</a>
+    </div>
+
+    <main id="smooth-content">
+        <section class="hero" id="home">
+            <canvas class="hero-canvas" id="heroCanvas"></canvas>
+            <div class="hero-grid"></div>
+            <div class="float-orb" id="orb"></div>
+
+            <div class="hero-content">
+                <div class="hero-top">
+                    <div class="eyebrow">
+                        FULL STACK WEB DEVELOPER<br>
+                        INFORMATICS STUDENT
+                    </div>
+
+                    <div class="hero-location">
+                        Samarinda, Indonesia<br>
+                        01 / 08 / 2026
+                    </div>
+                </div>
+
+                <h1 class="hero-title">
+                    <span class="line"><span class="word">DWI</span></span>
+                    <span class="line"><span class="word outline">PUTRA</span></span>
+                    <span class="line"><span class="word accent">DEV.</span></span>
+                </h1>
+
+                <div class="hero-bottom">
+                    <div class="hero-description">
+                        I build <strong>digital systems</strong> that turn complex data into interfaces people can actually understand, use, and trust.
+                    </div>
+
+                    <div class="scroll-indicator">
+                        <span class="scroll-line"><span></span></span>
+                        Scroll to explore
+                    </div>
+
+                    <div class="hero-year">
+                        EST. 2024<br>
+                        WEB / DATA / SYSTEMS
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="marquee-wrap">
+            <div class="marquee">
+                <span>BUILD</span>
+                <span class="acid">THINK</span>
+                <span>SHIP</span>
+                <span>REPEAT</span>
+                <span>BUILD</span>
+                <span class="acid">THINK</span>
+                <span>SHIP</span>
+                <span>REPEAT</span>
+            </div>
+        </div>
+
+        <section class="section" id="work">
+            <div class="section-head reveal">
+                <div>
+                    <div class="section-kicker">01 / Selected Work</div>
+                    <h2 class="section-title">Things I've<br><em>built.</em></h2>
+                </div>
+
+                <div class="section-number">SCROLL / PROJECTS</div>
+            </div>
+
+            <div class="projects">
+                <article class="project reveal project-trigger" data-project="dapodik">
+                    <div class="project-index">01</div>
+
+                    <div class="project-info">
+                        <div class="project-category">Data System / Dashboard / 2026</div>
+                        <h3 class="project-name">Dapodik<span>System.</span></h3>
+                        <p class="project-copy">
+                            Sistem web untuk mengubah data pendidikan yang kompleks menjadi dashboard yang lebih cepat, terstruktur, dan mudah dibaca.
+                        </p>
+                    </div>
+
+                    <div class="project-visual magnetic-image">
+                        <img src="assets/projects/dapodik.png" alt="Dapodik project">
+                        <div class="project-overlay"></div>
+                        <div class="project-number-large">01</div>
+                    </div>
+
+                    <div class="project-meta">
+                        <div class="project-arrow">↗</div>
+                        <div>
+                            Laravel / API<br>
+                            Database / UI
+                        </div>
+                    </div>
+                </article>
+
+                <article class="project reveal project-trigger" data-project="eio">
+                    <div class="project-index">02</div>
+
+                    <div class="project-info">
+                        <div class="project-category">Web Application / Interface / 2026</div>
+                        <h3 class="project-name">EIO<span>System.</span></h3>
+                        <p class="project-copy">
+                            Project web dengan fokus pada tampilan antarmuka, pengolahan informasi, dan pengalaman pengguna yang lebih sederhana.
+                        </p>
+                    </div>
+
+                    <div class="project-visual magnetic-image">
+                        <img src="assets/projects/eio.png" alt="EIO project">
+                        <div class="project-overlay"></div>
+                        <div class="project-number-large">02</div>
+                    </div>
+
+                    <div class="project-meta">
+                        <div class="project-arrow">↗</div>
+                        <div>
+                            Web / UI<br>
+                            Data / Interaction
+                        </div>
+                    </div>
+                </article>
+
+                <article class="project reveal project-trigger" data-project="lenlog">
+                    <div class="project-index">03</div>
+
+                    <div class="project-info">
+                        <div class="project-category">Full Stack / Experiment / 2025—26</div>
+                        <h3 class="project-name">Lenlog<span>System.</span></h3>
+                        <p class="project-copy">
+                            Eksperimen membangun sistem web dengan kombinasi frontend, backend, database, API, dan deployment.
+                        </p>
+                    </div>
+
+                    <div class="project-visual magnetic-image">
+                        <img src="assets/projects/lenlog.png" alt="Lenlog project">
+                        <div class="project-overlay"></div>
+                        <div class="project-number-large">03</div>
+                    </div>
+
+                    <div class="project-meta">
+                        <div class="project-arrow">↗</div>
+                        <div>
+                            Full Stack<br>
+                            API / Database
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="horizontal-section" id="experiments">
+            <div class="horizontal-stage">
+                <div class="horizontal-title">
+                    <div class="section-kicker">Experiments / Playground</div>
+                    <h2 class="section-title">
+                        Beyond<br>
+                        <em>the usual.</em>
+                    </h2>
+                </div>
+
+                <div class="horizontal-track" id="horizontalTrack">
+                    <div class="experiment magnetic-image">
+                        <img src="assets/projects/eio.png" alt="Interface experiment">
+                        <div class="experiment-label">
+                            01 / Experiment
+                            <strong>Interface.</strong>
+                        </div>
+                    </div>
+
+                    <div class="experiment magnetic-image">
+                        <img src="assets/projects/lenlog.png" alt="System experiment">
+                        <div class="experiment-label">
+                            02 / Experiment
+                            <strong>Digital System.</strong>
+                        </div>
+                    </div>
+
+                    <div class="experiment magnetic-image">
+                        <img src="assets/projects/dapodik.png" alt="Data experiment">
+                        <div class="experiment-label">
+                            03 / Experiment
+                            <strong>Data Flow.</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="about">
+            <div class="section-head reveal">
+                <div>
+                    <div class="section-kicker">02 / About</div>
+                    <h2 class="section-title">Not just<br><em>a coder.</em></h2>
+                </div>
+
+                <div class="section-number">DWI / PROFILE</div>
+            </div>
+
+            <div class="about">
+                <div class="about-big reveal">
+                    I like turning<br>
+                    <span class="dim">messy problems</span><br>
+                    into simple<br>
+                    systems.
+                </div>
+
+                <div class="about-copy reveal">
+                    <p>
+                        Halo, saya <strong>Dwi Putra Setiawan</strong>. Saya mahasiswa Informatika di Universitas Muhammadiyah Kalimantan Timur yang tertarik pada pengembangan web, pengolahan data, backend system, dan pengalaman antarmuka yang terasa hidup.
+                    </p>
+
+                    <p>
+                        Saya tidak terlalu tertarik membuat website yang cuma terlihat bagus. Saya lebih suka membuat sesuatu yang <strong>punya fungsi, punya alur, dan benar-benar bisa dipakai.</strong>
+                    </p>
+
+                    <div class="about-facts">
+                        <div class="fact">
+                            <span>Based</span>
+                            <span>Samarinda, Kaltim</span>
+                        </div>
+
+                        <div class="fact">
+                            <span>Focus</span>
+                            <span>Full Stack / Data Systems</span>
+                        </div>
+
+                        <div class="fact">
+                            <span>Education</span>
+                            <span>Informatics — UMKT</span>
+                        </div>
+
+                        <div class="fact">
+                            <span>Status</span>
+                            <span>Open for Projects</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="stack-section" id="stack">
+            <div class="section-head reveal">
+                <div>
+                    <div class="section-kicker">03 / Toolkit</div>
+                    <h2 class="section-title">Tools I<br><em>trust.</em></h2>
+                </div>
+
+                <div class="section-number">TECH STACK / 2026</div>
+            </div>
+
+            <div class="stack-list">
+                <div class="stack-item reveal">
+                    <span class="stack-num">01</span>
+                    <span class="stack-name">Laravel</span>
+                    <span class="stack-type">Backend</span>
+                </div>
+
+                <div class="stack-item reveal">
+                    <span class="stack-num">02</span>
+                    <span class="stack-name">React</span>
+                    <span class="stack-type">Frontend</span>
+                </div>
+
+                <div class="stack-item reveal">
+                    <span class="stack-num">03</span>
+                    <span class="stack-name">JavaScript</span>
+                    <span class="stack-type">Interaction</span>
+                </div>
+
+                <div class="stack-item reveal">
+                    <span class="stack-num">04</span>
+                    <span class="stack-name">Python</span>
+                    <span class="stack-type">Logic / Data</span>
+                </div>
+
+                <div class="stack-item reveal">
+                    <span class="stack-num">05</span>
+                    <span class="stack-name">MySQL</span>
+                    <span class="stack-type">Database</span>
+                </div>
+
+                <div class="stack-item reveal">
+                    <span class="stack-num">06</span>
+                    <span class="stack-name">Docker</span>
+                    <span class="stack-type">Infrastructure</span>
+                </div>
+
+                <div class="stack-item reveal">
+                    <span class="stack-num">07</span>
+                    <span class="stack-name">Git</span>
+                    <span class="stack-type">Version Control</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="journey">
+            <div class="section-head reveal">
+                <div>
+                    <div class="section-kicker">04 / Journey</div>
+                    <h2 class="section-title">Still<br><em>becoming.</em></h2>
+                </div>
+
+                <div class="section-number">2024 — NOW</div>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-line"></div>
+                <div class="timeline-progress" id="timelineProgress"></div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2024</div>
+                        <h3 class="timeline-title">The Beginning</h3>
+                        <p class="timeline-text">
+                            Mulai mendalami fundamental pemrograman, HTML, CSS, JavaScript, algoritma, dan pengembangan web saat berada di SMKN 7 Samarinda.
+                        </p>
+                    </div>
+
+                    <div></div>
+                    <div class="timeline-dot"></div>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div></div>
+
+                    <div class="timeline-content">
+                        <div class="timeline-year">2025</div>
+                        <h3 class="timeline-title">UMKT</h3>
+                        <p class="timeline-text">
+                            Masuk Informatika Universitas Muhammadiyah Kalimantan Timur dan mulai membangun lebih banyak project kampus, web application, database, dan API.
+                        </p>
+                    </div>
+
+                    <div class="timeline-dot"></div>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2026</div>
+                        <h3 class="timeline-title">Building Systems</h3>
+                        <p class="timeline-text">
+                            Mulai fokus pada project yang lebih kompleks: dashboard data, deployment cloud, backend architecture, automation, dan workflow development berbasis AI.
+                        </p>
+                    </div>
+
+                    <div></div>
+                    <div class="timeline-dot"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section contact" id="contact">
+            <div class="contact-kicker reveal">05 / Let's work together</div>
+
+            <h2 class="contact-title reveal">
+                <span class="line">HAVE A</span>
+                <span class="line">PROJECT<span class="acid">?</span></span>
+            </h2>
+
+            <div class="contact-bottom reveal">
+                <a class="contact-email magnetic" href="mailto:dwiputrasetiawan0406@gmail.com">
+                    dwiputrasetiawan0406@gmail.com
+                </a>
+
+                <a
+                    class="contact-button magnetic"
+                    href="https://wa.me/6282252262909"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Let's<br>Talk ↗
+                </a>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <span>© 2026 DWI PUTRA SETIAWAN</span>
+            <span>BUILT WITH CODE / CURIOSITY / AI</span>
+
+            <a
+                href="https://github.com/dwiputra06"
+                target="_blank"
+                rel="noopener"
+            >
+                GITHUB ↗
+            </a>
+        </footer>
+    </main>
+
+    <div class="terminal" id="terminal">
+        <div class="terminal-window">
+            <div class="terminal-head">
+                <div class="terminal-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <span>DWI@Samarinda:~</span>
+
+                <button id="closeTerminal">ESC / CLOSE</button>
+            </div>
+
+            <div class="terminal-body" id="terminalBody">
+                <div style="color:#c8ff00">DWI TERMINAL v3.0</div>
+                <div style="color:#555">Type "help" to see available commands.</div>
+                <br>
+            </div>
+
+            <div class="terminal-input">
+                <span>›</span>
+                <input
+                    id="terminalInput"
+                    autocomplete="off"
+                    spellcheck="false"
+                    placeholder="type a command..."
+                >
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.8/dist/lenis.min.js"></script>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        // =========================================================
+        // LOADER
+        // =========================================================
+
+        const loader = document.getElementById("loader");
+        const loaderNumber = document.getElementById("loaderNumber");
+        const loaderLine = document.getElementById("loaderLine");
+        const loaderValue = { value: 0 };
+
+        gsap.to(loaderValue, {
+            value: 100,
+            duration: 1.7,
+            ease: "power2.inOut",
+            onUpdate: () => {
+                loaderNumber.textContent = Math.floor(loaderValue.value)
+                    .toString()
+                    .padStart(2, "0");
+
+                loaderLine.style.width = `${loaderValue.value}%`;
+            },
+            onComplete: () => {
+                const tl = gsap.timeline();
+
+                tl.to(loaderNumber, {
+                    y: "-20%",
+                    opacity: 0,
+                    duration: 0.35,
+                    ease: "power2.in"
+                })
+                .to(loader, {
+                    clipPath: "inset(0 0 100% 0)",
+                    duration: 0.8,
+                    ease: "power4.inOut",
+                    onComplete: () => loader.remove()
+                })
+                .from(".hero .eyebrow", {
+                    y: 30,
+                    opacity: 0,
+                    duration: 0.6
+                }, "-=0.35")
+                .from(".hero-bottom", {
+                    y: 30,
+                    opacity: 0,
+                    duration: 0.7
+                }, "-=0.35");
+            }
+        });
+
+        // =========================================================
+        // CUSTOM CURSOR
+        // =========================================================
+
+        const cursor = document.getElementById("cursor");
+        const cursorDot = document.getElementById("cursorDot");
+        const cursorLabel = document.getElementById("cursorLabel");
+
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let cursorX = mouseX;
+        let cursorY = mouseY;
+        let dotX = mouseX;
+        let dotY = mouseY;
+
+        if (!reduceMotion && window.innerWidth > 900) {
+            window.addEventListener("mousemove", (event) => {
+                mouseX = event.clientX;
+                mouseY = event.clientY;
+            });
+
+            gsap.ticker.add(() => {
+                cursorX += (mouseX - cursorX) * 0.14;
+                cursorY += (mouseY - cursorY) * 0.14;
+                dotX += (mouseX - dotX) * 0.5;
+                dotY += (mouseY - dotY) * 0.5;
+
+                cursor.style.left = `${cursorX}px`;
+                cursor.style.top = `${cursorY}px`;
+                cursorDot.style.left = `${dotX}px`;
+                cursorDot.style.top = `${dotY}px`;
+                cursorLabel.style.left = `${cursorX}px`;
+                cursorLabel.style.top = `${cursorY}px`;
+            });
+
+            document.querySelectorAll("a, button, .project, .experiment, .stack-item").forEach((element) => {
+                element.addEventListener("mouseenter", () => {
+                    cursor.classList.add("active");
+                });
+
+                element.addEventListener("mouseleave", () => {
+                    cursor.classList.remove("active");
+                    cursor.classList.remove("text-mode");
+                    cursorLabel.style.opacity = "0";
+                });
+            });
+
+            document.querySelectorAll(".project, .experiment").forEach((element) => {
+                element.addEventListener("mouseenter", () => {
+                    cursor.classList.add("text-mode");
+                    cursorLabel.textContent = "VIEW";
+                    cursorLabel.style.opacity = "1";
+                });
+            });
+        }
+
+        // =========================================================
+        // PARTICLES
+        // =========================================================
+
+        const canvas = document.getElementById("heroCanvas");
+        const ctx = canvas.getContext("2d");
+
+        let particles = [];
+
+        function resizeCanvas() {
+            const ratio = window.devicePixelRatio || 1;
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+
+            canvas.width = width * ratio;
+            canvas.height = height * ratio;
+            canvas.style.width = `${width}px`;
+            canvas.style.height = `${height}px`;
+
+            ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+            particles = [];
+
+            const count = width < 700 ? 35 : 75;
+
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 0.25,
+                    vy: (Math.random() - 0.5) * 0.25,
+                    r: Math.random() * 1.5 + 0.3,
+                    a: Math.random() * 0.45 + 0.08
+                });
+            }
+        }
+
+        function animateParticles() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+
+            ctx.clearRect(0, 0, width, height);
+
+            if (!reduceMotion) {
+                for (let i = 0; i < particles.length; i++) {
+                    const particle = particles[i];
+
+                    particle.x += particle.vx;
+                    particle.y += particle.vy;
+
+                    if (particle.x < 0 || particle.x > width) {
+                        particle.vx *= -1;
+                    }
+
+                    if (particle.y < 0 || particle.y > height) {
+                        particle.vy *= -1;
+                    }
+
+                    ctx.beginPath();
+                    ctx.arc(
+                        particle.x,
+                        particle.y,
+                        particle.r,
+                        0,
+                        Math.PI * 2
+                    );
+
+                    ctx.fillStyle = `rgba(200,255,0,${particle.a})`;
+                    ctx.fill();
+
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const other = particles[j];
+                        const dx = particle.x - other.x;
+                        const dy = particle.y - other.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+
+                        if (distance < 130) {
+                            ctx.beginPath();
+                            ctx.moveTo(particle.x, particle.y);
+                            ctx.lineTo(other.x, other.y);
+                            ctx.strokeStyle = `rgba(255,255,255,${0.045 * (1 - distance / 130)})`;
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            requestAnimationFrame(animateParticles);
+        }
+
+        resizeCanvas();
+        animateParticles();
+
+        window.addEventListener("resize", resizeCanvas);
+
+        // =========================================================
+        // ORB
+        // =========================================================
+
+        const orb = document.getElementById("orb");
+
+        if (!reduceMotion) {
+            window.addEventListener("mousemove", (event) => {
+                const x = (event.clientX / window.innerWidth - 0.5) * 35;
+                const y = (event.clientY / window.innerHeight - 0.5) * 35;
+
+                gsap.to(orb, {
+                    x,
+                    y,
+                    duration: 1.5,
+                    ease: "power3.out"
+                });
+            });
+        }
+
+        // =========================================================
+        // LENIS
+        // =========================================================
+
+        const lenis = new Lenis({
+            duration: 1.05,
+            smoothWheel: true,
+            smoothTouch: false,
+            wheelMultiplier: 0.9,
+            syncTouch: false
+        });
+
+        lenis.on("scroll", ScrollTrigger.update);
+
+        gsap.ticker.add((time) => {
+            lenis.raf(time * 1000);
+        });
+
+        gsap.ticker.lagSmoothing(0);
+
+        // =========================================================
+        // HERO ANIMATION
+        // =========================================================
+
+        if (!reduceMotion) {
+            gsap.to(".hero-title .word", {
+                y: 0,
+                duration: 1.3,
+                stagger: 0.12,
+                delay: 1.8,
+                ease: "power4.out"
+            });
+
+            gsap.to(".hero-title", {
+                yPercent: 25,
+                opacity: 0.25,
+                scrollTrigger: {
+                    trigger: ".hero",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: 1
+                }
+            });
+
+            gsap.to(".float-orb", {
+                yPercent: 80,
+                scrollTrigger: {
+                    trigger: ".hero",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: 2
+                }
+            });
+        }
+
+        // =========================================================
+        // REVEAL
+        // =========================================================
+
+        if (!reduceMotion) {
+            document.querySelectorAll(".reveal").forEach((element) => {
+                gsap.fromTo(
+                    element,
+                    {
+                        y: 60,
+                        opacity: 0
+                    },
+                    {
+                        y: 0,
+                        opacity: 1,
+                        duration: 1,
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: element,
+                            start: "top 88%",
+                            once: true
+                        }
+                    }
+                );
+            });
+        } else {
+            document.querySelectorAll(".reveal").forEach((element) => {
+                element.style.opacity = "1";
+                element.style.transform = "none";
+            });
+        }
+
+        // =========================================================
+        // HORIZONTAL SHOWCASE
+        // =========================================================
+
+        function setupHorizontal() {
+            if (window.innerWidth <= 900 || reduceMotion) {
+                return;
+            }
+
+            const section = document.querySelector(".horizontal-section");
+            const track = document.getElementById("horizontalTrack");
+
+            if (!section || !track) {
+                return;
+            }
+
+            const getDistance = () => {
+                return Math.max(0, track.scrollWidth - window.innerWidth);
+            };
+
+            const distance = getDistance();
+
+            if (distance <= 0) {
+                return;
+            }
+
+            const compressedDistance = Math.min(
+                distance,
+                window.innerHeight * 1.55
+            );
+
+            const progress = compressedDistance / distance;
+
+            gsap.to(track, {
+                x: () => -distance * progress,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top top",
+                    end: () => `+=${compressedDistance}`,
+                    scrub: 0.8,
+                    pin: true,
+                    anticipatePin: 1,
+                    invalidateOnRefresh: true
+                }
+            });
+        }
+
+        setupHorizontal();
+
+        // =========================================================
+        // TIMELINE
+        // =========================================================
+
+        const timeline = document.querySelector(".timeline");
+        const timelineProgress = document.getElementById("timelineProgress");
+
+        if (!reduceMotion && timeline) {
+            gsap.to(timelineProgress, {
+                height: "100%",
+                ease: "none",
+                scrollTrigger: {
+                    trigger: timeline,
+                    start: "top 65%",
+                    end: "bottom 70%",
+                    scrub: 1
+                }
+            });
+
+            document.querySelectorAll(".timeline-item").forEach((item) => {
+                ScrollTrigger.create({
+                    trigger: item,
+                    start: "top 65%",
+                    end: "bottom 65%",
+                    onEnter: () => item.classList.add("active"),
+                    onEnterBack: () => item.classList.add("active"),
+                    onLeave: () => item.classList.remove("active"),
+                    onLeaveBack: () => item.classList.remove("active")
+                });
+            });
+        }
+
+        // =========================================================
+        // MAGNETIC ELEMENTS
+        // =========================================================
+
+        document.querySelectorAll(".magnetic").forEach((element) => {
+            if (window.innerWidth <= 900 || reduceMotion) {
+                return;
+            }
+
+            element.addEventListener("mousemove", (event) => {
+                const rect = element.getBoundingClientRect();
+
+                const x =
+                    (event.clientX - rect.left - rect.width / 2) * 0.22;
+
+                const y =
+                    (event.clientY - rect.top - rect.height / 2) * 0.22;
+
+                gsap.to(element, {
+                    x,
+                    y,
+                    duration: 0.35,
+                    ease: "power3.out"
+                });
+            });
+
+            element.addEventListener("mouseleave", () => {
+                gsap.to(element, {
+                    x: 0,
+                    y: 0,
+                    duration: 0.6,
+                    ease: "elastic.out(1,.4)"
+                });
+            });
+        });
+
+        document.querySelectorAll(".magnetic-image").forEach((element) => {
+            if (window.innerWidth <= 900 || reduceMotion) {
+                return;
+            }
+
+            const image = element.querySelector("img");
+
+            if (!image) {
+                return;
+            }
+
+            element.addEventListener("mousemove", (event) => {
+                const rect = element.getBoundingClientRect();
+
+                const x = (event.clientX - rect.left) / rect.width - 0.5;
+                const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+                gsap.to(image, {
+                    x: x * 12,
+                    y: y * 12,
+                    duration: 0.7,
+                    ease: "power3.out"
+                });
+            });
+
+            element.addEventListener("mouseleave", () => {
+                gsap.to(image, {
+                    x: 0,
+                    y: 0,
+                    duration: 0.8,
+                    ease: "power3.out"
+                });
+            });
+        });
+
+        // =========================================================
+        // MOBILE MENU
+        // =========================================================
+
+        const menuBtn = document.getElementById("menuBtn");
+        const mobileMenu = document.getElementById("mobileMenu");
+
+        menuBtn.addEventListener("click", () => {
+            mobileMenu.classList.toggle("open");
+            menuBtn.textContent = mobileMenu.classList.contains("open")
+                ? "CLOSE ×"
+                : "MENU /";
+        });
+
+        document.querySelectorAll(".mobile-menu a").forEach((link) => {
+            link.addEventListener("click", () => {
+                mobileMenu.classList.remove("open");
+                menuBtn.textContent = "MENU /";
+            });
+        });
+
+        // =========================================================
+        // ANCHOR SCROLL
+        // =========================================================
+
+        document.querySelectorAll('a[href^="#"]').forEach((link) => {
+            link.addEventListener("click", (event) => {
+                const href = link.getAttribute("href");
+
+                if (!href || href === "#") {
+                    return;
+                }
+
+                const target = document.querySelector(href);
+
+                if (!target) {
+                    return;
+                }
+
+                event.preventDefault();
+
+                lenis.scrollTo(target, {
+                    offset: -20,
+                    duration: 1.2
+                });
+            });
+        });
+
+        // =========================================================
+        // TERMINAL
+        // =========================================================
+
+        const terminal = document.getElementById("terminal");
+        const terminalInput = document.getElementById("terminalInput");
+        const terminalBody = document.getElementById("terminalBody");
+
+        function openTerminal() {
+            terminal.classList.add("open");
+
+            setTimeout(() => {
+                terminalInput.focus();
+            }, 100);
+        }
+
+        function closeTerminal() {
+            terminal.classList.remove("open");
+        }
+
+        document.querySelector(".logo").addEventListener("dblclick", openTerminal);
+        document.getElementById("closeTerminal").addEventListener("click", closeTerminal);
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                closeTerminal();
+            }
+
+            if (event.key === "`") {
+                openTerminal();
+            }
+        });
+
+        // =========================================================
+        // TERMINAL COMMANDS
+        // =========================================================
+
+        const commands = {
+            help: `
+                <div style="color:#aaa">AVAILABLE COMMANDS</div>
+                <div><span style="color:#c8ff00">whoami</span> — about Dwi</div>
+                <div><span style="color:#c8ff00">projects</span> — selected projects</div>
+                <div><span style="color:#c8ff00">stack</span> — technology stack</div>
+                <div><span style="color:#c8ff00">contact</span> — contact information</div>
+                <div><span style="color:#c8ff00">github</span> — open GitHub</div>
+                <div><span style="color:#c8ff00">clear</span> — clear terminal</div>
+            `,
+
+            whoami: `
+                <div style="color:#c8ff00">Dwi Putra Setiawan</div>
+                <div>Full Stack Web Developer / Informatics Student</div>
+                <div>Samarinda, Indonesia</div>
+            `,
+
+            projects: `
+                <div style="color:#c8ff00">01 — Dapodik System</div>
+                <div>02 — EIO System</div>
+                <div>03 — Lenlog System</div>
+            `,
+
+            stack: `
+                <div>Laravel / React / JavaScript / Python / MySQL / Docker / Git</div>
+            `,
+
+            contact: `
+                <div>WA: 082252262909</div>
+                <div>Email: dwiputrasetiawan0406@gmail.com</div>
+            `,
+
+            github: `
+                <div>Opening GitHub...</div>
+            `,
+
+            clear: ""
+        };
+
+        terminalInput.addEventListener("keydown", (event) => {
+            if (event.key !== "Enter") {
+                return;
+            }
+
+            const value = terminalInput.value.trim().toLowerCase();
+
+            if (!value) {
+                return;
+            }
+
+            terminalBody.innerHTML += `
+                <div style="margin-top:10px">
+                    <span style="color:#c8ff00">›</span> ${value}
+                </div>
+            `;
+
+            if (commands[value] !== undefined) {
+                terminalBody.innerHTML += commands[value];
+
+                if (value === "github") {
+                    window.open(
+                        "https://github.com/dwiputra06",
+                        "_blank"
+                    );
+                }
+            } else {
+                terminalBody.innerHTML += `
+                    <div style="color:#ff5d5d">
+                        command not found: ${value}
+                    </div>
+                `;
+            }
+
+            terminalInput.value = "";
+            terminalBody.scrollTop = terminalBody.scrollHeight;
+        });
+
+        // =========================================================
+        // PROJECT DATA
+        // =========================================================
+
+        const projectData = {
+            dapodik: {
+                title: "Dapodik System",
+                text: "Dashboard web yang dirancang untuk mengolah dan menyajikan data pendidikan secara lebih terstruktur. Fokus utama berada pada data visualization, API, database, dan pengalaman pengguna.",
+                tech: "Laravel / REST API / Database / Railway",
+                link: "https://dapodik-web-production.up.railway.app/"
+            },
+
+            eio: {
+                title: "EIO System",
+                text: "Project web dengan fokus pada interface, pengolahan informasi, dan pengalaman pengguna yang sederhana serta mudah digunakan.",
+                tech: "Web / UI / Data / Interaction",
+                link: "#"
+            },
+
+            lenlog: {
+                title: "Lenlog System",
+                text: "Eksperimen full stack yang menggabungkan frontend, backend, database, API, dan deployment.",
+                tech: "Full Stack / API / Database",
+                link: "#"
+            }
+        };
+
+        document.querySelectorAll(".project-trigger").forEach((project) => {
+            project.addEventListener("click", () => {
+                const data = projectData[project.dataset.project];
+
+                if (!data) {
+                    return;
+                }
+
+                terminal.classList.add("open");
+
+                terminalBody.innerHTML = `
+                    <div style="color:#c8ff00">
+                        PROJECT / ${data.title.toUpperCase()}
+                    </div>
+
+                    <br>
+
+                    <div>${data.text}</div>
+
+                    <br>
+
+                    <div style="color:#777">STACK</div>
+                    <div>${data.tech}</div>
+
+                    <br>
+
+                    <div style="color:#777">LIVE / SOURCE</div>
+                    <div style="color:#c8ff00">${data.link}</div>
+
+                    <br>
+
+                    <div style="color:#555">
+                        Press ESC to close.
+                    </div>
+                `;
+            });
+        });
+
+        // =========================================================
+        // REFRESH SCROLL TRIGGER
+        // =========================================================
+
+        window.addEventListener("load", () => {
+            setTimeout(() => {
+                ScrollTrigger.refresh();
+            }, 500);
+        });
+
+        window.addEventListener("resize", () => {
+            ScrollTrigger.refresh();
+        });
+    </script>
 </body>
 </html>
