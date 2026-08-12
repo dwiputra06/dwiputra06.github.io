@@ -40,8 +40,8 @@ margin:0;
 padding:0;
 }
 html{
-scroll-behavior:auto;
 background:var(--bg);
+scroll-behavior:auto;
 }
 body{
 background:var(--bg);
@@ -238,8 +238,14 @@ box-shadow:0 0 14px var(--acid);
 animation:pulse 1.8s infinite;
 }
 @keyframes pulse{
-0%,100%{opacity:1;transform:scale(1)}
-50%{opacity:.4;transform:scale(.65)}
+0%,100%{
+opacity:1;
+transform:scale(1);
+}
+50%{
+opacity:.4;
+transform:scale(.65);
+}
 }
 .menu-btn{
 display:none;
@@ -356,9 +362,15 @@ background:var(--acid);
 animation:scrollLine 2s infinite;
 }
 @keyframes scrollLine{
-0%{left:-100%}
-50%{left:0}
-100%{left:100%}
+0%{
+left:-100%;
+}
+50%{
+left:0;
+}
+100%{
+left:100%;
+}
 }
 .hero-year{
 font:400 10px "DM Mono",monospace;
@@ -403,8 +415,12 @@ color:var(--acid);
 -webkit-text-stroke:0;
 }
 @keyframes marquee{
-from{transform:translateX(0)}
-to{transform:translateX(-50%)}
+from{
+transform:translateX(0);
+}
+to{
+transform:translateX(-50%);
+}
 }
 .section{
 position:relative;
@@ -546,37 +562,68 @@ border-color:var(--acid);
 color:#050505;
 transform:rotate(-45deg);
 }
+
+/* ==========================================
+HORIZONTAL SHOWCASE — FIXED
+========================================== */
+
 .horizontal-section{
+position:relative;
+height:100vh;
+min-height:760px;
 overflow:hidden;
-padding:130px 0;
 background:#0b0b0b;
 }
-.horizontal-title{
-padding:0 5vw;
-margin-bottom:70px;
+
+.horizontal-stage{
+position:relative;
+height:100%;
+width:100%;
+display:flex;
+align-items:center;
+overflow:hidden;
 }
+
+.horizontal-title{
+position:absolute;
+top:10vh;
+left:5vw;
+z-index:5;
+margin:0;
+pointer-events:none;
+}
+
+.horizontal-title .section-title{
+font-size:clamp(3.5rem,7vw,8rem);
+}
+
 .horizontal-track{
 display:flex;
+align-items:center;
+gap:24px;
 width:max-content;
-gap:25px;
 padding-left:5vw;
+padding-right:10vw;
+will-change:transform;
 }
+
 .experiment{
-width:min(58vw,760px);
-height:470px;
+width:min(42vw,680px);
+height:min(58vh,500px);
+min-height:380px;
 position:relative;
 overflow:hidden;
 background:#151515;
 flex:none;
 }
 .experiment:nth-child(2){
-margin-top:90px;
+margin-top:70px;
 }
 .experiment:nth-child(3){
-margin-top:-30px;
+margin-top:-50px;
 }
 .experiment:nth-child(4){
-margin-top:70px;
+margin-top:50px;
 }
 .experiment img{
 width:100%;
@@ -593,7 +640,8 @@ transform:scale(1.04);
 content:"";
 position:absolute;
 inset:0;
-background:linear-gradient(to top,rgba(0,0,0,.8),transparent 55%);
+background:linear-gradient(to top,rgba(0,0,0,.82),transparent 55%);
+pointer-events:none;
 }
 .experiment-label{
 position:absolute;
@@ -610,6 +658,9 @@ font:600 30px "Space Grotesk",sans-serif;
 letter-spacing:-.05em;
 margin-top:5px;
 }
+
+/* END HORIZONTAL */
+
 .about{
 display:grid;
 grid-template-columns:1fr 1.4fr;
@@ -863,6 +914,11 @@ border-bottom:1px solid #222;
 font:400 9px "DM Mono",monospace;
 color:#666;
 }
+.terminal-head button{
+background:none;
+border:0;
+color:#777;
+}
 .terminal-dots{
 display:flex;
 gap:6px;
@@ -1008,14 +1064,48 @@ padding:25px 0 0;
 .project-arrow{
 margin:0;
 }
+
+/* MOBILE HORIZONTAL = NORMAL SCROLL */
+
 .horizontal-section{
+height:auto;
+min-height:0;
 padding:100px 0;
+overflow:hidden;
+}
+.horizontal-stage{
+height:auto;
+display:block;
+overflow:visible;
+}
+.horizontal-title{
+position:relative;
+top:auto;
+left:auto;
+padding:0 5vw;
+margin-bottom:55px;
+}
+.horizontal-track{
+display:flex;
+flex-direction:column;
+gap:25px;
+width:100%;
+padding:0 5vw;
 }
 .experiment{
-width:82vw;
+width:100%;
 height:55vw;
 min-height:260px;
 }
+.experiment:nth-child(2),
+.experiment:nth-child(3),
+.experiment:nth-child(4){
+margin-top:0;
+}
+.experiment-label strong{
+font-size:25px;
+}
+
 .about{
 grid-template-columns:1fr;
 gap:60px;
@@ -1034,7 +1124,8 @@ display:block;
 min-height:250px;
 padding-left:40px;
 }
-.timeline-item:nth-child(odd) .timeline-content,.timeline-item:nth-child(even) .timeline-content{
+.timeline-item:nth-child(odd) .timeline-content,
+.timeline-item:nth-child(even) .timeline-content{
 padding:0;
 text-align:left;
 }
@@ -1075,6 +1166,7 @@ transform:none!important;
 </style>
 </head>
 <body>
+
 <div class="page-loader" id="loader">
 <div>
 <div class="loader-number" id="loaderNumber">00</div>
@@ -1083,13 +1175,14 @@ transform:none!important;
 <div class="loader-meta">Samarinda / Indonesia<br>Loading experience...</div>
 <div class="loader-line"><span id="loaderLine"></span></div>
 </div>
+
 <div class="noise"></div>
 <div class="cursor" id="cursor"></div>
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="cursor-label" id="cursorLabel">VIEW</div>
 
 <nav class="nav">
-<a href="#" class="logo magnetic">DWI<span>.</span></a>
+<a href="#home" class="logo magnetic">DWI<span>.</span></a>
 <div class="nav-links">
 <a href="#work">Work</a>
 <a href="#about">About</a>
@@ -1114,29 +1207,44 @@ Available for work
 </div>
 
 <main id="smooth-content">
+
 <section class="hero" id="home">
 <canvas class="hero-canvas" id="heroCanvas"></canvas>
 <div class="hero-grid"></div>
 <div class="float-orb" id="orb"></div>
+
 <div class="hero-content">
 <div class="hero-top">
-<div class="eyebrow">FULL STACK WEB DEVELOPER<br>INFORMATICS STUDENT</div>
-<div class="hero-location">Samarinda, Indonesia<br>01 / 08 / 2026</div>
+<div class="eyebrow">
+FULL STACK WEB DEVELOPER<br>
+INFORMATICS STUDENT
 </div>
+<div class="hero-location">
+Samarinda, Indonesia<br>
+01 / 08 / 2026
+</div>
+</div>
+
 <h1 class="hero-title" id="heroTitle">
 <span class="line"><span class="word">DWI</span></span>
 <span class="line"><span class="word outline">PUTRA</span></span>
 <span class="line"><span class="word accent">DEV.</span></span>
 </h1>
+
 <div class="hero-bottom">
 <div class="hero-description">
 I build <strong>digital systems</strong> that turn complex data into interfaces people can actually understand, use, and trust.
 </div>
+
 <div class="scroll-indicator">
 <span class="scroll-line"><span></span></span>
 Scroll to explore
 </div>
-<div class="hero-year">EST. 2024<br>WEB / DATA / SYSTEMS</div>
+
+<div class="hero-year">
+EST. 2024<br>
+WEB / DATA / SYSTEMS
+</div>
 </div>
 </div>
 </section>
@@ -1162,19 +1270,25 @@ Scroll to explore
 </div>
 <div class="section-number">SCROLL / PROJECTS</div>
 </div>
+
 <div class="projects">
+
 <article class="project reveal project-trigger" data-project="dapodik">
 <div class="project-index">01</div>
 <div class="project-info">
 <div class="project-category">Data System / Dashboard / 2026</div>
 <h3 class="project-name">Dapodik<span>System.</span></h3>
-<p class="project-copy">Sistem web untuk mengubah data pendidikan yang kompleks menjadi dashboard yang lebih cepat, terstruktur, dan mudah dibaca.</p>
+<p class="project-copy">
+Sistem web untuk mengubah data pendidikan yang kompleks menjadi dashboard yang lebih cepat, terstruktur, dan mudah dibaca.
+</p>
 </div>
+
 <div class="project-visual magnetic-image">
 <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1800&q=85" alt="Data dashboard">
 <div class="project-overlay"></div>
 <div class="project-number-large">01</div>
 </div>
+
 <div class="project-meta">
 <div class="project-arrow">↗</div>
 <div>Laravel / API<br>Database / UI</div>
@@ -1186,13 +1300,17 @@ Scroll to explore
 <div class="project-info">
 <div class="project-category">Creative Development / Web / 2026</div>
 <h3 class="project-name">Portfolio<span>Experience.</span></h3>
-<p class="project-copy">Eksperimen personal untuk menggabungkan development, motion, typography, dan storytelling dalam satu pengalaman web.</p>
+<p class="project-copy">
+Eksperimen personal untuk menggabungkan development, motion, typography, dan storytelling dalam satu pengalaman web.
+</p>
 </div>
+
 <div class="project-visual magnetic-image">
 <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=1800&q=85" alt="Creative workspace">
 <div class="project-overlay"></div>
 <div class="project-number-large">02</div>
 </div>
+
 <div class="project-meta">
 <div class="project-arrow">↗</div>
 <div>JavaScript / GSAP<br>Creative UI</div>
@@ -1204,42 +1322,75 @@ Scroll to explore
 <div class="project-info">
 <div class="project-category">Full Stack / Experiment / 2025—26</div>
 <h3 class="project-name">Digital<span>Systems.</span></h3>
-<p class="project-copy">Berbagai eksperimen membangun aplikasi web, API, database, deployment cloud, dan workflow development.</p>
+<p class="project-copy">
+Berbagai eksperimen membangun aplikasi web, API, database, deployment cloud, dan workflow development.
+</p>
 </div>
+
 <div class="project-visual magnetic-image">
 <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1800&q=85" alt="Code editor">
 <div class="project-overlay"></div>
 <div class="project-number-large">03</div>
 </div>
+
 <div class="project-meta">
 <div class="project-arrow">↗</div>
 <div>Full Stack<br>Docker / Cloud</div>
 </div>
 </article>
+
 </div>
 </section>
 
-<section class="horizontal-section">
-<div class="horizontal-title reveal">
+<!-- ==========================================
+HORIZONTAL SHOWCASE
+========================================== -->
+
+<section class="horizontal-section" id="experiments">
+<div class="horizontal-stage">
+
+<div class="horizontal-title">
 <div class="section-kicker">Experiments / Playground</div>
-<h2 class="section-title">Beyond<br><em>the usual.</em></h2>
+<h2 class="section-title">
+Beyond<br>
+<em>the usual.</em>
+</h2>
 </div>
+
 <div class="horizontal-track" id="horizontalTrack">
+
 <div class="experiment magnetic-image">
 <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1400&q=85" alt="Technology">
-<div class="experiment-label">01 / Experiment<strong>Interface.</strong></div>
+<div class="experiment-label">
+01 / Experiment
+<strong>Interface.</strong>
 </div>
+</div>
+
 <div class="experiment magnetic-image">
 <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=85" alt="Circuit board">
-<div class="experiment-label">02 / Experiment<strong>Hardware × Code.</strong></div>
+<div class="experiment-label">
+02 / Experiment
+<strong>Hardware × Code.</strong>
 </div>
+</div>
+
 <div class="experiment magnetic-image">
 <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=1400&q=85" alt="Mobile application">
-<div class="experiment-label">03 / Experiment<strong>Mobile Flow.</strong></div>
+<div class="experiment-label">
+03 / Experiment
+<strong>Mobile Flow.</strong>
 </div>
+</div>
+
 <div class="experiment magnetic-image">
 <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1400&q=85" alt="Programming">
-<div class="experiment-label">04 / Experiment<strong>Clean Code.</strong></div>
+<div class="experiment-label">
+04 / Experiment
+<strong>Clean Code.</strong>
+</div>
+</div>
+
 </div>
 </div>
 </section>
@@ -1252,27 +1403,50 @@ Scroll to explore
 </div>
 <div class="section-number">DWI / PROFILE</div>
 </div>
+
 <div class="about">
+
 <div class="about-big reveal">
 I like turning<br>
 <span class="dim">messy problems</span><br>
 into simple<br>
 systems.
 </div>
+
 <div class="about-copy reveal">
-<p>Halo, saya <strong>Dwi Putra Setiawan</strong>. Saya mahasiswa Informatika di Universitas Muhammadiyah Kalimantan Timur yang tertarik pada pengembangan web, pengolahan data, backend system, dan pengalaman antarmuka yang terasa hidup.</p>
-<p>Saya tidak terlalu tertarik membuat website yang cuma terlihat bagus. Saya lebih suka membuat sesuatu yang <strong>punya fungsi, punya alur, dan benar-benar bisa dipakai.</strong></p>
+<p>
+Halo, saya <strong>Dwi Putra Setiawan</strong>. Saya mahasiswa Informatika di Universitas Muhammadiyah Kalimantan Timur yang tertarik pada pengembangan web, pengolahan data, backend system, dan pengalaman antarmuka yang terasa hidup.
+</p>
+
+<p>
+Saya tidak terlalu tertarik membuat website yang cuma terlihat bagus. Saya lebih suka membuat sesuatu yang <strong>punya fungsi, punya alur, dan benar-benar bisa dipakai.</strong>
+</p>
+
 <div class="about-facts">
-<div class="fact"><span>Based</span><span>Samarinda, Kaltim</span></div>
-<div class="fact"><span>Focus</span><span>Full Stack / Data Systems</span></div>
-<div class="fact"><span>Education</span><span>Informatics — UMKT</span></div>
-<div class="fact"><span>Status</span><span>Open for Projects</span></div>
+<div class="fact">
+<span>Based</span>
+<span>Samarinda, Kaltim</span>
+</div>
+<div class="fact">
+<span>Focus</span>
+<span>Full Stack / Data Systems</span>
+</div>
+<div class="fact">
+<span>Education</span>
+<span>Informatics — UMKT</span>
+</div>
+<div class="fact">
+<span>Status</span>
+<span>Open for Projects</span>
 </div>
 </div>
+</div>
+
 </div>
 </section>
 
 <section class="stack-section" id="stack">
+
 <div class="section-head reveal">
 <div>
 <div class="section-kicker">03 / Toolkit</div>
@@ -1280,18 +1454,56 @@ systems.
 </div>
 <div class="section-number">TECH STACK / 2026</div>
 </div>
+
 <div class="stack-list">
-<div class="stack-item reveal"><span class="stack-num">01</span><span class="stack-name">Laravel</span><span class="stack-type">Backend</span></div>
-<div class="stack-item reveal"><span class="stack-num">02</span><span class="stack-name">React</span><span class="stack-type">Frontend</span></div>
-<div class="stack-item reveal"><span class="stack-num">03</span><span class="stack-name">JavaScript</span><span class="stack-type">Interaction</span></div>
-<div class="stack-item reveal"><span class="stack-num">04</span><span class="stack-name">Python</span><span class="stack-type">Logic / Data</span></div>
-<div class="stack-item reveal"><span class="stack-num">05</span><span class="stack-name">MySQL</span><span class="stack-type">Database</span></div>
-<div class="stack-item reveal"><span class="stack-num">06</span><span class="stack-name">Docker</span><span class="stack-type">Infrastructure</span></div>
-<div class="stack-item reveal"><span class="stack-num">07</span><span class="stack-name">Git</span><span class="stack-type">Version Control</span></div>
+
+<div class="stack-item reveal">
+<span class="stack-num">01</span>
+<span class="stack-name">Laravel</span>
+<span class="stack-type">Backend</span>
+</div>
+
+<div class="stack-item reveal">
+<span class="stack-num">02</span>
+<span class="stack-name">React</span>
+<span class="stack-type">Frontend</span>
+</div>
+
+<div class="stack-item reveal">
+<span class="stack-num">03</span>
+<span class="stack-name">JavaScript</span>
+<span class="stack-type">Interaction</span>
+</div>
+
+<div class="stack-item reveal">
+<span class="stack-num">04</span>
+<span class="stack-name">Python</span>
+<span class="stack-type">Logic / Data</span>
+</div>
+
+<div class="stack-item reveal">
+<span class="stack-num">05</span>
+<span class="stack-name">MySQL</span>
+<span class="stack-type">Database</span>
+</div>
+
+<div class="stack-item reveal">
+<span class="stack-num">06</span>
+<span class="stack-name">Docker</span>
+<span class="stack-type">Infrastructure</span>
+</div>
+
+<div class="stack-item reveal">
+<span class="stack-num">07</span>
+<span class="stack-name">Git</span>
+<span class="stack-type">Version Control</span>
+</div>
+
 </div>
 </section>
 
 <section class="section" id="journey">
+
 <div class="section-head reveal">
 <div>
 <div class="section-kicker">04 / Journey</div>
@@ -1299,90 +1511,143 @@ systems.
 </div>
 <div class="section-number">2024 — NOW</div>
 </div>
+
 <div class="timeline">
+
 <div class="timeline-line"></div>
 <div class="timeline-progress" id="timelineProgress"></div>
+
 <div class="timeline-item reveal">
 <div class="timeline-content">
 <div class="timeline-year">2024</div>
 <h3 class="timeline-title">The Beginning</h3>
-<p class="timeline-text">Mulai mendalami fundamental pemrograman, HTML, CSS, JavaScript, algoritma, dan pengembangan web saat berada di SMKN 7 Samarinda.</p>
+<p class="timeline-text">
+Mulai mendalami fundamental pemrograman, HTML, CSS, JavaScript, algoritma, dan pengembangan web saat berada di SMKN 7 Samarinda.
+</p>
 </div>
 <div></div>
 <div class="timeline-dot"></div>
 </div>
+
 <div class="timeline-item reveal">
 <div></div>
 <div class="timeline-content">
 <div class="timeline-year">2025</div>
 <h3 class="timeline-title">UMKT</h3>
-<p class="timeline-text">Masuk Informatika Universitas Muhammadiyah Kalimantan Timur dan mulai membangun lebih banyak project kampus, web application, database, dan API.</p>
+<p class="timeline-text">
+Masuk Informatika Universitas Muhammadiyah Kalimantan Timur dan mulai membangun lebih banyak project kampus, web application, database, dan API.
+</p>
 </div>
 <div class="timeline-dot"></div>
 </div>
+
 <div class="timeline-item reveal">
 <div class="timeline-content">
 <div class="timeline-year">2026</div>
 <h3 class="timeline-title">Building Systems</h3>
-<p class="timeline-text">Mulai fokus pada project yang lebih kompleks: dashboard data, deployment cloud, backend architecture, automation, dan workflow development berbasis AI.</p>
+<p class="timeline-text">
+Mulai fokus pada project yang lebih kompleks: dashboard data, deployment cloud, backend architecture, automation, dan workflow development berbasis AI.
+</p>
 </div>
 <div></div>
 <div class="timeline-dot"></div>
 </div>
+
 </div>
 </section>
 
 <section class="section contact" id="contact">
-<div class="contact-kicker reveal">05 / Let's work together</div>
+
+<div class="contact-kicker reveal">
+05 / Let's work together
+</div>
+
 <h2 class="contact-title reveal">
 <span class="line">HAVE A</span>
 <span class="line">PROJECT<span class="acid">?</span></span>
 </h2>
+
 <div class="contact-bottom reveal">
-<a class="contact-email magnetic" href="mailto:dwiputrasetiawan0406@gmail.com">dwiputrasetiawan0406@gmail.com</a>
-<a class="contact-button magnetic" href="https://wa.me/6282252262909" target="_blank" rel="noopener">Let's<br>Talk ↗</a>
+
+<a class="contact-email magnetic" href="mailto:dwiputrasetiawan0406@gmail.com">
+dwiputrasetiawan0406@gmail.com
+</a>
+
+<a class="contact-button magnetic" href="https://wa.me/6282252262909" target="_blank" rel="noopener">
+Let's<br>Talk ↗
+</a>
+
 </div>
 </section>
 
 <footer class="footer">
 <span>© 2026 DWI PUTRA SETIAWAN</span>
 <span>BUILT WITH CODE / CURIOSITY / AI</span>
-<a href="https://github.com/dwiputra06" target="_blank" rel="noopener">GITHUB ↗</a>
+<a href="https://github.com/dwiputra06" target="_blank" rel="noopener">
+GITHUB ↗
+</a>
 </footer>
+
 </main>
 
 <div class="terminal" id="terminal">
+
 <div class="terminal-window">
+
 <div class="terminal-head">
-<div class="terminal-dots"><span></span><span></span><span></span></div>
-<span>DWI@Samarinda:~</span>
-<button id="closeTerminal">ESC / CLOSE</button>
+
+<div class="terminal-dots">
+<span></span>
+<span></span>
+<span></span>
 </div>
+
+<span>DWI@Samarinda:~</span>
+
+<button id="closeTerminal">
+ESC / CLOSE
+</button>
+
+</div>
+
 <div class="terminal-body" id="terminalBody">
-<div style="color:#c8ff00">DWI TERMINAL v3.0</div>
-<div style="color:#555">Type "help" to see available commands.</div>
+<div style="color:#c8ff00">
+DWI TERMINAL v3.0
+</div>
+
+<div style="color:#555">
+Type "help" to see available commands.
+</div>
+
 <br>
 </div>
+
 <div class="terminal-input">
 <span>›</span>
 <input id="terminalInput" autocomplete="off" spellcheck="false" placeholder="type a command...">
 </div>
+
 </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.8/dist/lenis.min.js"></script>
+
 <script>
 gsap.registerPlugin(ScrollTrigger);
 
 const reduceMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+/* ==========================================
+LOADER
+========================================== */
+
 const loader=document.getElementById("loader");
 const loaderNumber=document.getElementById("loaderNumber");
 const loaderLine=document.getElementById("loaderLine");
 
-let loaderValue={value:0};
+const loaderValue={value:0};
 
 gsap.to(loaderValue,{
 value:100,
@@ -1394,12 +1659,37 @@ loaderLine.style.width=loaderValue.value+"%";
 },
 onComplete:()=>{
 const tl=gsap.timeline();
-tl.to(loaderNumber,{y:"-20%",opacity:0,duration:.35,ease:"power2.in"})
-.to(loader,{clipPath:"inset(0 0 100% 0)",duration:.8,ease:"power4.inOut",onComplete:()=>loader.remove()})
-.from(".hero .eyebrow",{y:30,opacity:0,duration:.6},"-=.35")
-.from(".hero-bottom",{y:30,opacity:0,duration:.7},"-=.35");
+
+tl.to(loaderNumber,{
+y:"-20%",
+opacity:0,
+duration:.35,
+ease:"power2.in"
+})
+.to(loader,{
+clipPath:"inset(0 0 100% 0)",
+duration:.8,
+ease:"power4.inOut",
+onComplete:()=>{
+loader.remove();
+}
+})
+.from(".hero .eyebrow",{
+y:30,
+opacity:0,
+duration:.6
+},"-=.35")
+.from(".hero-bottom",{
+y:30,
+opacity:0,
+duration:.7
+},"-=.35");
 }
 });
+
+/* ==========================================
+CURSOR
+========================================== */
 
 const cursor=document.getElementById("cursor");
 const cursorDot=document.getElementById("cursorDot");
@@ -1413,15 +1703,18 @@ let dotX=mouseX;
 let dotY=mouseY;
 
 if(!reduceMotion&&window.innerWidth>900){
+
 window.addEventListener("mousemove",e=>{
 mouseX=e.clientX;
 mouseY=e.clientY;
 });
+
 gsap.ticker.add(()=>{
 cursorX+=(mouseX-cursorX)*.14;
 cursorY+=(mouseY-cursorY)*.14;
 dotX+=(mouseX-dotX)*.5;
 dotY+=(mouseY-dotY)*.5;
+
 cursor.style.left=cursorX+"px";
 cursor.style.top=cursorY+"px";
 cursorDot.style.left=dotX+"px";
@@ -1429,40 +1722,67 @@ cursorDot.style.top=dotY+"px";
 cursorLabel.style.left=cursorX+"px";
 cursorLabel.style.top=cursorY+"px";
 });
+
 document.querySelectorAll("a,button,.project,.experiment,.stack-item").forEach(el=>{
+
 el.addEventListener("mouseenter",()=>{
 cursor.classList.add("active");
 });
+
 el.addEventListener("mouseleave",()=>{
 cursor.classList.remove("active");
 cursor.classList.remove("text-mode");
 cursorLabel.style.opacity="0";
 });
+
 });
+
 document.querySelectorAll(".project,.experiment").forEach(el=>{
+
 el.addEventListener("mouseenter",()=>{
 cursor.classList.add("text-mode");
 cursorLabel.textContent="VIEW";
 cursorLabel.style.opacity="1";
 });
+
 });
+
 }
+
+/* ==========================================
+PARTICLES
+========================================== */
 
 const canvas=document.getElementById("heroCanvas");
 const ctx=canvas.getContext("2d");
+
 let particles=[];
 let canvasW=0;
 let canvasH=0;
 
 function resizeCanvas(){
+
 canvasW=canvas.width=window.innerWidth*devicePixelRatio;
 canvasH=canvas.height=window.innerHeight*devicePixelRatio;
+
 canvas.style.width=window.innerWidth+"px";
 canvas.style.height=window.innerHeight+"px";
-ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+
+ctx.setTransform(
+devicePixelRatio,
+0,
+0,
+devicePixelRatio,
+0,
+0
+);
+
 particles=[];
+
 const count=window.innerWidth<700?35:75;
+
 for(let i=0;i<count;i++){
+
 particles.push({
 x:Math.random()*window.innerWidth,
 y:Math.random()*window.innerHeight,
@@ -1471,66 +1791,156 @@ vy:(Math.random()-.5)*.25,
 r:Math.random()*1.5+.3,
 a:Math.random()*.45+.08
 });
+
 }
+
 }
+
 resizeCanvas();
 window.addEventListener("resize",resizeCanvas);
 
 function animateParticles(){
-ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+
+ctx.clearRect(
+0,
+0,
+window.innerWidth,
+window.innerHeight
+);
+
 if(!reduceMotion){
+
 for(let i=0;i<particles.length;i++){
+
 const p=particles[i];
+
 p.x+=p.vx;
 p.y+=p.vy;
-if(p.x<0||p.x>window.innerWidth)p.vx*=-1;
-if(p.y<0||p.y>window.innerHeight)p.vy*=-1;
+
+if(p.x<0||p.x>window.innerWidth){
+p.vx*=-1;
+}
+
+if(p.y<0||p.y>window.innerHeight){
+p.vy*=-1;
+}
+
 ctx.beginPath();
-ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-ctx.fillStyle="rgba(200,255,0,"+p.a+")";
+ctx.arc(
+p.x,
+p.y,
+p.r,
+0,
+Math.PI*2
+);
+
+ctx.fillStyle=
+"rgba(200,255,0,"+
+p.a+
+")";
+
 ctx.fill();
+
 for(let j=i+1;j<particles.length;j++){
+
 const q=particles[j];
+
 const dx=p.x-q.x;
 const dy=p.y-q.y;
-const dist=Math.sqrt(dx*dx+dy*dy);
+
+const dist=Math.sqrt(
+dx*dx+
+dy*dy
+);
+
 if(dist<130){
+
 ctx.beginPath();
-ctx.moveTo(p.x,p.y);
-ctx.lineTo(q.x,q.y);
-ctx.strokeStyle="rgba(255,255,255,"+(0.045*(1-dist/130))+")";
+
+ctx.moveTo(
+p.x,
+p.y
+);
+
+ctx.lineTo(
+q.x,
+q.y
+);
+
+ctx.strokeStyle=
+"rgba(255,255,255,"+
+(0.045*(1-dist/130))+
+")";
+
 ctx.stroke();
+
 }
+
 }
+
 }
+
 }
+
 requestAnimationFrame(animateParticles);
+
 }
+
 animateParticles();
 
+/* ==========================================
+ORB
+========================================== */
+
 if(!reduceMotion){
+
 window.addEventListener("mousemove",e=>{
+
 const orb=document.getElementById("orb");
-const x=(e.clientX/window.innerWidth-.5)*35;
-const y=(e.clientY/window.innerHeight-.5)*35;
-gsap.to(orb,{x,y,duration:1.5,ease:"power3.out"});
+
+const x=
+(e.clientX/window.innerWidth-.5)*35;
+
+const y=
+(e.clientY/window.innerHeight-.5)*35;
+
+gsap.to(orb,{
+x,
+y,
+duration:1.5,
+ease:"power3.out"
 });
+
+});
+
 }
 
+/* ==========================================
+LENIS
+========================================== */
+
 const lenis=new Lenis({
-duration:1.15,
+duration:1.05,
 smoothWheel:true,
 smoothTouch:false,
-wheelMultiplier:.85
+wheelMultiplier:.9,
+syncTouch:false
 });
 
 lenis.on("scroll",ScrollTrigger.update);
+
 gsap.ticker.add(time=>{
 lenis.raf(time*1000);
 });
+
 gsap.ticker.lagSmoothing(0);
 
+/* ==========================================
+HERO ANIMATION
+========================================== */
+
 if(!reduceMotion){
+
 gsap.to(".hero-title .word",{
 y:0,
 duration:1.3,
@@ -1538,6 +1948,7 @@ stagger:.12,
 delay:1.8,
 ease:"power4.out"
 });
+
 gsap.to(".hero-title",{
 yPercent:25,
 opacity:.25,
@@ -1548,6 +1959,7 @@ end:"bottom top",
 scrub:1
 }
 });
+
 gsap.to(".float-orb",{
 yPercent:80,
 scrollTrigger:{
@@ -1557,46 +1969,120 @@ end:"bottom top",
 scrub:2
 }
 });
+
 }
 
+/* ==========================================
+REVEAL
+========================================== */
+
+if(!reduceMotion){
+
 document.querySelectorAll(".reveal").forEach(el=>{
-gsap.fromTo(el,{
+
+gsap.fromTo(
+el,
+{
 y:60,
 opacity:0
-},{
+},
+{
 y:0,
 opacity:1,
 duration:1,
 ease:"power3.out",
 scrollTrigger:{
 trigger:el,
-start:"top 85%",
+start:"top 88%",
 once:true
 }
-});
+}
+);
+
 });
 
-if(!reduceMotion){
-gsap.to("#horizontalTrack",{
-x:()=>{
--(document.querySelector("#horizontalTrack").scrollWidth-window.innerWidth+window.innerWidth*.05)
-},
+}else{
+
+document.querySelectorAll(".reveal").forEach(el=>{
+el.style.opacity="1";
+el.style.transform="none";
+});
+
+}
+
+/* ==========================================
+FIXED HORIZONTAL SCROLL
+========================================== */
+
+function setupHorizontal(){
+
+if(window.innerWidth<=900||reduceMotion){
+return;
+}
+
+const section=document.querySelector(".horizontal-section");
+const track=document.querySelector("#horizontalTrack");
+
+if(!section||!track){
+return;
+}
+
+const getDistance=()=>{
+return Math.max(
+0,
+track.scrollWidth-window.innerWidth
+);
+};
+
+const distance=getDistance();
+
+if(distance<=0){
+return;
+}
+
+/*
+Important:
+Jangan lagi pakai scroll distance mentah sebesar
+seluruh lebar track.
+
+Kita kompres durasinya supaya section tidak terasa
+seperti "terjebak" terlalu lama.
+*/
+
+const compressedDistance=Math.min(
+distance,
+window.innerHeight*1.55
+);
+
+const progress=compressedDistance/distance;
+
+gsap.to(track,{
+x:()=>-distance*progress,
 ease:"none",
 scrollTrigger:{
-trigger:".horizontal-section",
+trigger:section,
 start:"top top",
-end:()=>"+="+(document.querySelector("#horizontalTrack").scrollWidth-window.innerWidth),
-scrub:1,
+end:()=>"+="+compressedDistance,
+scrub:.8,
 pin:true,
+anticipatePin:1,
 invalidateOnRefresh:true
 }
 });
+
 }
+
+setupHorizontal();
+
+/* ==========================================
+TIMELINE
+========================================== */
 
 const timeline=document.querySelector(".timeline");
 const timelineProgress=document.getElementById("timelineProgress");
 
-if(!reduceMotion){
+if(!reduceMotion&&timeline){
+
 gsap.to(timelineProgress,{
 height:"100%",
 ease:"none",
@@ -1607,96 +2093,241 @@ end:"bottom 70%",
 scrub:1
 }
 });
+
 document.querySelectorAll(".timeline-item").forEach(item=>{
+
 ScrollTrigger.create({
+
 trigger:item,
+
 start:"top 65%",
 end:"bottom 65%",
-onEnter:()=>item.classList.add("active"),
-onEnterBack:()=>item.classList.add("active"),
-onLeave:()=>item.classList.remove("active"),
-onLeaveBack:()=>item.classList.remove("active")
-});
-});
+
+onEnter:()=>{
+item.classList.add("active");
+},
+
+onEnterBack:()=>{
+item.classList.add("active");
+},
+
+onLeave:()=>{
+item.classList.remove("active");
+},
+
+onLeaveBack:()=>{
+item.classList.remove("active");
 }
 
-document.querySelectorAll(".magnetic").forEach(el=>{
-if(window.innerWidth<=900||reduceMotion)return;
-el.addEventListener("mousemove",e=>{
-const rect=el.getBoundingClientRect();
-const x=(e.clientX-rect.left-rect.width/2)*.22;
-const y=(e.clientY-rect.top-rect.height/2)*.22;
-gsap.to(el,{x,y,duration:.35,ease:"power3.out"});
-});
-el.addEventListener("mouseleave",()=>{
-gsap.to(el,{x:0,y:0,duration:.6,ease:"elastic.out(1,.4)"});
-});
 });
 
-document.querySelectorAll(".magnetic-image").forEach(el=>{
-if(window.innerWidth<=900||reduceMotion)return;
+});
+
+}
+
+/* ==========================================
+MAGNETIC
+========================================== */
+
+document.querySelectorAll(".magnetic").forEach(el=>{
+
+if(window.innerWidth<=900||reduceMotion){
+return;
+}
+
 el.addEventListener("mousemove",e=>{
+
 const rect=el.getBoundingClientRect();
-const x=(e.clientX-rect.left)/rect.width-.5;
-const y=(e.clientY-rect.top)/rect.height-.5;
-gsap.to(el.querySelector("img"),{
+
+const x=
+(e.clientX-rect.left-rect.width/2)*.22;
+
+const y=
+(e.clientY-rect.top-rect.height/2)*.22;
+
+gsap.to(el,{
+x,
+y,
+duration:.35,
+ease:"power3.out"
+});
+
+});
+
+el.addEventListener("mouseleave",()=>{
+
+gsap.to(el,{
+x:0,
+y:0,
+duration:.6,
+ease:"elastic.out(1,.4)"
+});
+
+});
+
+});
+
+/* ==========================================
+IMAGE MAGNETIC
+========================================== */
+
+document.querySelectorAll(".magnetic-image").forEach(el=>{
+
+if(window.innerWidth<=900||reduceMotion){
+return;
+}
+
+const image=el.querySelector("img");
+
+if(!image){
+return;
+}
+
+el.addEventListener("mousemove",e=>{
+
+const rect=el.getBoundingClientRect();
+
+const x=
+(e.clientX-rect.left)/rect.width-.5;
+
+const y=
+(e.clientY-rect.top)/rect.height-.5;
+
+gsap.to(image,{
 x:x*12,
 y:y*12,
 duration:.7,
 ease:"power3.out"
 });
+
 });
+
 el.addEventListener("mouseleave",()=>{
-gsap.to(el.querySelector("img"),{x:0,y:0,duration:.8,ease:"power3.out"});
+
+gsap.to(image,{
+x:0,
+y:0,
+duration:.8,
+ease:"power3.out"
 });
+
 });
+
+});
+
+/* ==========================================
+MOBILE MENU
+========================================== */
 
 const menuBtn=document.getElementById("menuBtn");
 const mobileMenu=document.getElementById("mobileMenu");
 
 menuBtn.addEventListener("click",()=>{
+
 mobileMenu.classList.toggle("open");
-menuBtn.textContent=mobileMenu.classList.contains("open")?"CLOSE ×":"MENU /";
+
+menuBtn.textContent=
+mobileMenu.classList.contains("open")
+?"CLOSE ×"
+:"MENU /";
+
 });
 
 document.querySelectorAll(".mobile-menu a").forEach(link=>{
+
 link.addEventListener("click",()=>{
+
 mobileMenu.classList.remove("open");
+
 menuBtn.textContent="MENU /";
-});
+
 });
 
+});
+
+/* ==========================================
+ANCHOR SCROLL
+========================================== */
+
 document.querySelectorAll('a[href^="#"]').forEach(link=>{
+
 link.addEventListener("click",e=>{
-const target=document.querySelector(link.getAttribute("href"));
-if(!target)return;
+
+const href=link.getAttribute("href");
+
+if(!href||href==="#"){
+return;
+}
+
+const target=document.querySelector(href);
+
+if(!target){
+return;
+}
+
 e.preventDefault();
-lenis.scrollTo(target,{offset:-20,duration:1.4});
+
+lenis.scrollTo(target,{
+offset:-20,
+duration:1.2
 });
+
 });
+
+});
+
+/* ==========================================
+TERMINAL
+========================================== */
 
 const terminal=document.getElementById("terminal");
 const terminalInput=document.getElementById("terminalInput");
 const terminalBody=document.getElementById("terminalBody");
 
 function openTerminal(){
+
 terminal.classList.add("open");
-setTimeout(()=>terminalInput.focus(),100);
+
+setTimeout(()=>{
+terminalInput.focus();
+},100);
+
 }
 
 function closeTerminal(){
+
 terminal.classList.remove("open");
+
 }
 
-document.querySelector(".logo").addEventListener("dblclick",openTerminal);
-document.getElementById("closeTerminal").addEventListener("click",closeTerminal);
+document.querySelector(".logo").addEventListener(
+"dblclick",
+openTerminal
+);
+
+document.getElementById("closeTerminal").addEventListener(
+"click",
+closeTerminal
+);
 
 document.addEventListener("keydown",e=>{
-if(e.key==="Escape")closeTerminal();
-if(e.key==="`")openTerminal();
+
+if(e.key==="Escape"){
+closeTerminal();
+}
+
+if(e.key==="`"){
+openTerminal();
+}
+
 });
 
+/* ==========================================
+TERMINAL COMMANDS
+========================================== */
+
 const commands={
+
 help:`
 <div style="color:#aaa">AVAILABLE COMMANDS</div>
 <div><span style="color:#c8ff00">whoami</span> — about Dwi</div>
@@ -1706,76 +2337,179 @@ help:`
 <div><span style="color:#c8ff00">github</span> — open GitHub</div>
 <div><span style="color:#c8ff00">clear</span> — clear terminal</div>
 `,
-whoami:`<div style="color:#c8ff00">Dwi Putra Setiawan</div><div>Full Stack Web Developer / Informatics Student</div><div>Samarinda, Indonesia</div>`,
-projects:`<div style="color:#c8ff00">01 — Dapodik System</div><div>02 — Portfolio Experience</div><div>03 — Digital Systems</div>`,
-stack:`<div>Laravel / React / JavaScript / Python / MySQL / Docker / Git</div>`,
-contact:`<div>WA: 082252262909</div><div>Email: dwiputrasetiawan0406@gmail.com</div>`,
-github:`<div>Opening GitHub...</div>`,
+
+whoami:`
+<div style="color:#c8ff00">Dwi Putra Setiawan</div>
+<div>Full Stack Web Developer / Informatics Student</div>
+<div>Samarinda, Indonesia</div>
+`,
+
+projects:`
+<div style="color:#c8ff00">01 — Dapodik System</div>
+<div>02 — Portfolio Experience</div>
+<div>03 — Digital Systems</div>
+`,
+
+stack:`
+<div>Laravel / React / JavaScript / Python / MySQL / Docker / Git</div>
+`,
+
+contact:`
+<div>WA: 082252262909</div>
+<div>Email: dwiputrasetiawan0406@gmail.com</div>
+`,
+
+github:`
+<div>Opening GitHub...</div>
+`,
+
 clear:""
+
 };
 
 terminalInput.addEventListener("keydown",e=>{
-if(e.key!=="Enter")return;
+
+if(e.key!=="Enter"){
+return;
+}
+
 const value=terminalInput.value.trim().toLowerCase();
-if(!value)return;
-terminalBody.innerHTML+=`<div style="margin-top:10px"><span style="color:#c8ff00">›</span> ${value}</div>`;
+
+if(!value){
+return;
+}
+
+terminalBody.innerHTML+=
+`<div style="margin-top:10px">
+<span style="color:#c8ff00">›</span> ${value}
+</div>`;
+
 if(commands[value]!==undefined){
+
 terminalBody.innerHTML+=commands[value];
+
 if(value==="github"){
-window.open("https://github.com/dwiputra06","_blank");
+
+window.open(
+"https://github.com/dwiputra06",
+"_blank"
+);
+
 }
+
 }else{
-terminalBody.innerHTML+=`<div style="color:#ff5d5d">command not found: ${value}</div>`;
+
+terminalBody.innerHTML+=
+`<div style="color:#ff5d5d">
+command not found: ${value}
+</div>`;
+
 }
+
 terminalInput.value="";
 terminalBody.scrollTop=terminalBody.scrollHeight;
+
 });
 
+/* ==========================================
+PROJECT DATA
+========================================== */
+
 const projectData={
+
 dapodik:{
 title:"Dapodik System",
 text:"Dashboard web yang dirancang untuk mengolah dan menyajikan data pendidikan secara lebih terstruktur. Fokus utama berada pada data visualization, API, database, dan pengalaman pengguna.",
 tech:"Laravel / REST API / Database / Railway",
 link:"https://dapodik-web-production.up.railway.app/"
 },
+
 portfolio:{
 title:"Portfolio Experience",
 text:"Portfolio personal yang dibuat sebagai eksperimen creative development dengan typography besar, scroll animation, interaction, custom cursor, dan storytelling.",
 tech:"JavaScript / GSAP / CSS / Canvas",
 link:"https://dwiputra06.github.io/"
 },
+
 systems:{
 title:"Digital Systems",
 text:"Kumpulan eksperimen pengembangan aplikasi web, backend, database, API, Docker, deployment, dan automation workflow.",
 tech:"Full Stack / Docker / Git / Cloud",
 link:"https://github.com/dwiputra06"
 }
+
 };
 
 document.querySelectorAll(".project-trigger").forEach(project=>{
+
 project.addEventListener("click",()=>{
+
 const data=projectData[project.dataset.project];
-if(!data)return;
+
+if(!data){
+return;
+}
+
 terminal.classList.add("open");
+
 terminalBody.innerHTML=`
-<div style="color:#c8ff00">PROJECT / ${data.title.toUpperCase()}</div>
+<div style="color:#c8ff00">
+PROJECT / ${data.title.toUpperCase()}
+</div>
+
 <br>
+
 <div>${data.text}</div>
+
 <br>
-<div style="color:#777">STACK</div>
+
+<div style="color:#777">
+STACK
+</div>
+
 <div>${data.tech}</div>
+
 <br>
-<div style="color:#777">LIVE / SOURCE</div>
-<div style="color:#c8ff00">${data.link}</div>
+
+<div style="color:#777">
+LIVE / SOURCE
+</div>
+
+<div style="color:#c8ff00">
+${data.link}
+</div>
+
 <br>
-<div style="color:#555">Press ESC to close.</div>
+
+<div style="color:#555">
+Press ESC to close.
+</div>
 `;
-});
+
 });
 
-window.addEventListener("load",()=>{
-setTimeout(()=>ScrollTrigger.refresh(),1000);
 });
+
+/* ==========================================
+REFRESH AFTER IMAGES LOAD
+========================================== */
+
+window.addEventListener("load",()=>{
+
+setTimeout(()=>{
+
+ScrollTrigger.refresh();
+
+},500);
+
+});
+
+window.addEventListener("resize",()=>{
+
+ScrollTrigger.refresh();
+
+});
+
 </script>
 </body>
 </html>
